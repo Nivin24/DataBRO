@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Learning Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        :root {
+            --bg-color: #f9f9f9;
+            --text-color: #1e1e1e;
+            --card-bg-color: #ffffff;
+            --card-border-color: #e0e0e0;
+            --card-shadow-color: rgba(0, 0, 0, 0.08);
+            --accent-color: #007bff;
+            --gradient-hover: linear-gradient(145deg, #d6eaff, #ffffff);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #f5f5f5;
+            --card-bg-color: #1e1e1e;
+            --card-border-color: #2d2d2d;
+            --card-shadow-color: rgba(0, 0, 0, 0.6);
+            --gradient-hover: linear-gradient(145deg, #1c1c1c, #2a2a2a);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            transition: all 0.3s ease-in-out;
+        }
+
+        h1 {
+            margin: 40px 0 20px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+            padding: 20px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .card {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--card-border-color);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px var(--card-shadow-color);
+            padding: 24px;
+            width: 280px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            background: var(--gradient-hover);
+            box-shadow: 0 10px 20px var(--card-shadow-color);
+        }
+
+        .card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: var(--accent-color);
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--text-color);
+        }
+
+        .back-button,
+        .home-button,
+        .theme-toggle {
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            background-color: var(--card-bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--card-border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            position: fixed;
+        }
+
+        .back-button:hover,
+        .home-button:hover,
+        .theme-toggle:hover {
+            background-color: var(--card-border-color);
+        }
+
+        .back-button {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        .home-button {
+            top: 20px;
+            left: 20px;
+        }
+
+        .theme-toggle {
+            top: 20px;
+            right: 20px;
+        }
+
+        .theory-wrapper {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 20px;
+            font-size: 1.1rem;
+            line-height: 1.75;
+        }
+
+        .theory-card {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--card-border-color);
+            box-shadow: 0 4px 10px var(--card-shadow-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .theory-card:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+            box-shadow: 0 6px 16px var(--card-shadow-color);
+        }
+
+        .theory-card h2 {
+            margin-top: 0;
+            color: var(--accent-color);
+            font-size: 1.3rem;
+        }
+
+        .theory-card code {
+            background-color: rgba(0,0,0,0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 768px) {
+            .card {
+                width: 90%;
+            }
+
+            .theme-toggle,
+            .home-button,
+            .back-button {
+                font-size: 0.9rem;
+                padding: 10px 15px;
+            }
+        }
+         /* Quiz Styling */
+
+        /* Scroll Progress Bar */
+        #quiz-form-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background-color: #e0e0e0;
+            z-index: 999;
+        }
+
+        #quiz-form-progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #007bff; /* primary color accent */
+            transition: width 0.2s ease-in-out;
+        }
+
+        /* LIGHT THEME - Default */
+        #quiz-form {
+            background-color: #ffffff;
+            color: #222;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 900px;
+            margin: 80px auto;
+            font-family: 'Segoe UI', sans-serif;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+
+        #quiz-form h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+
+        #quiz-form ol {
+            padding-left: 20px;
+        }
+
+        #quiz-form li {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 15px;
+            list-style: decimal;
+        }
+
+        #quiz-form input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #007bff;
+        }
+
+        #quiz-form label {
+            display: block;
+            padding: 5px 0;
+            cursor: pointer;
+        }
+
+        #quiz-form button {
+            display: block;
+            margin: 30px auto;
+            padding: 12px 30px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #quiz-form button:hover {
+            background-color: #0056b3;
+        }
+
+        #quiz-result {
+            text-align: center;
+            font-size: 20px;
+            margin-top: 20px;
+            color: #007bff;
+        }
+
+        #quiz-form .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 18px;
+            cursor: pointer;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        #quiz-form .back-button:hover {
+            text-decoration: underline;
+        }
+
+        /* DARK THEME OVERRIDES */
+        @media (prefers-color-scheme: dark) {
+            #quiz-form {
+            background-color: #1e1e1e;
+            color: #f1f1f1;
+            box-shadow: 0 0 12px rgba(0,0,0,0.5);
+            }
+
+            #quiz-form h1 {
+            color: #00b894;
+            }
+
+            #quiz-form li {
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            }
+
+            #quiz-form input[type="radio"] {
+            accent-color: #00b894;
+            }
+
+            #quiz-form button {
+            background-color: #00b894;
+            }
+
+            #quiz-form button:hover {
+            background-color: #019e7a;
+            }
+
+            #quiz-result {
+            color: #00cec9;
+            }
+
+            #quiz-form .back-button {
+            color: #81ecec;
+            }
+
+            #quiz-form-progress-container {
+            background-color: #333;
+            }
+
+            #quiz-form-progress-bar {
+            background-color: #00b894;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleButton">🌚</button>
+    <a href="{{ url_for('home') }}">
+        <button class="home-button">Home</button>
+    </a>
+    <h1>Welcome to the Python Libraries</h1>
+    <div class="card-container">
+        <div class="card" onclick="navigateToSection('theory')">
+            <h2>Theory</h2>
+            <p>Learn the basics of Python programming.</p>
+        </div>
+        <div class="card" onclick="navigateToSection('quiz')">
+            <h2>Quiz</h2>
+            <p>Test your Python knowledge.</p>
+        </div>
+        <div class="card" onclick="navigateToSection('flashcards')">
+            <h2>Flashcards</h2>
+            <p>Coming Soon!</p>
+        </div>
+        <div class="card" onclick="navigateToSection('resources')">
+            <h2>Resources</h2>
+            <p>Explore helpful Python resources.</p>
+        </div>
+        <div class="card" onclick="navigateToSection('certifications')">
+            <h2>Certifications</h2>
+            <p>Earn Python certifications.</p>
+        </div>
+        <div class="card" onclick="navigateToSection('coding-practice')">
+            <h2>Coding Practice</h2>
+            <p>Practice Python coding problems.</p>
+        </div>
+    </div>
+
+    <div id="content" style="display: none; padding: 20px;">
+        <!-- Sections will be dynamically loaded here -->
+    </div>
+
+    <script>
+        const sections = {
+            theory: `
+                <div class="theory-wrapper">
+                    <h1>🧠 Python Libraries Theory</h1>
+                    <div class="theory-card">
+                        <h2>🔹 What is Python?</h2>
+                        <p>Python is a high-level, interpreted programming language known for its simple and readable syntax. It supports multiple programming paradigms, including procedural, object-oriented, and functional programming.</p>
+                    </div>
+                    <div class="theory-card">
+                        <h2>🔹 Why Learn Python?</h2>
+                        <ul>
+                            <li>Easy to read and write.</li>
+                            <li>Widely used in data science, web development, automation, AI, etc.</li>
+                            <li>Large supportive community and extensive libraries.</li>
+                        </ul>
+                    </div>
+                    <div class="theory-card">
+                        <h2>🔹 Python File Extension</h2>
+                        <p>Python files have a <code>.py</code> extension. Example: <code>script.py</code></p>
+                    </div>
+                    <a class="back-button" onclick="goBackToPythonPage()">🔙 Back to Python's Page</a>
+                </div>
+            `,
+            quiz: `
+            <h1>Quiz</h1>
+            <form id="quiz-form">
+            <ol>
+                <li>What is the correct file extension for Python files?<br>
+                <input type="radio" name="q1" value="a"> .py<br>
+                <input type="radio" name="q1" value="b"> .python<br>
+                <input type="radio" name="q1" value="c"> .pt<br>
+                <input type="radio" name="q1" value="d"> .pyt<br>
+                </li>
+                <li>Which keyword is used to create a function in Python?<br>
+                <input type="radio" name="q2" value="a"> function<br>
+                <input type="radio" name="q2" value="b"> define<br>
+                <input type="radio" name="q2" value="c"> def<br>
+                <input type="radio" name="q2" value="d"> fun<br>
+                </li>
+                <li>What is the output of: print(type(5))?<br>
+                <input type="radio" name="q3" value="a"> &lt;type 'float'&gt;<br>
+                <input type="radio" name="q3" value="b"> &lt;type 'string'&gt;<br>
+                <input type="radio" name="q3" value="c"> &lt;type 'int'&gt;<br>
+                <input type="radio" name="q3" value="d"> &lt;type 'bool'&gt;<br>
+                </li>
+                <li>Which of these is a Python data type?<br>
+                <input type="radio" name="q4" value="a"> character<br>
+                <input type="radio" name="q4" value="b"> decimal<br>
+                <input type="radio" name="q4" value="c"> tuple<br>
+                <input type="radio" name="q4" value="d"> real<br>
+                </li>
+                <li>What is the correct way to create a list in Python?<br>
+                <input type="radio" name="q5" value="a"> list = (1, 2, 3)<br>
+                <input type="radio" name="q5" value="b"> list = [1, 2, 3]<br>
+                <input type="radio" name="q5" value="c"> list = {1, 2, 3}<br>
+                <input type="radio" name="q5" value="d"> list = &lt;1, 2, 3&gt;<br>
+                </li>
+                <li>Which operator is used for exponentiation in Python?<br>
+                <input type="radio" name="q6" value="a"> ^<br>
+                <input type="radio" name="q6" value="b"> **<br>
+                <input type="radio" name="q6" value="c"> ^^<br>
+                <input type="radio" name="q6" value="d"> // <br>
+                </li>
+                <li>What is the output of: print(10 // 3)?<br>
+                <input type="radio" name="q7" value="a"> 3.33<br>
+                <input type="radio" name="q7" value="b"> 3<br>
+                <input type="radio" name="q7" value="c"> 4<br>
+                <input type="radio" name="q7" value="d"> 10<br>
+                </li>
+                <li>Which of the following is used to handle exceptions in Python?<br>
+                <input type="radio" name="q8" value="a"> try...catch<br>
+                <input type="radio" name="q8" value="b"> handle...except<br>
+                <input type="radio" name="q8" value="c"> try...except<br>
+                <input type="radio" name="q8" value="d"> do...except<br>
+                </li>
+                <li>What does the len() function do?<br>
+                <input type="radio" name="q9" value="a"> Returns last element<br>
+                <input type="radio" name="q9" value="b"> Returns type of list<br>
+                <input type="radio" name="q9" value="c"> Returns length<br>
+                <input type="radio" name="q9" value="d"> Reverses list<br>
+                </li>
+                <li>Which keyword is used for loops in Python?<br>
+                <input type="radio" name="q10" value="a"> repeat<br>
+                <input type="radio" name="q10" value="b"> for<br>
+                <input type="radio" name="q10" value="c"> iterate<br>
+                <input type="radio" name="q10" value="d"> loop<br>
+                </li>
+                <li>How do you insert COMMENTS in Python code?<br>
+                <input type="radio" name="q11" value="a"> // comment<br>
+                <input type="radio" name="q11" value="b"> <!-- comment --><br>
+                <input type="radio" name="q11" value="c"> # comment<br>
+                <input type="radio" name="q11" value="d"> /* comment */<br>
+                </li>
+                <li>What data type is the result of: 3 > 2?<br>
+                <input type="radio" name="q12" value="a"> int<br>
+                <input type="radio" name="q12" value="b"> bool<br>
+                <input type="radio" name="q12" value="c"> float<br>
+                <input type="radio" name="q12" value="d"> string<br>
+                </li>
+                <li>Which of these is used to define a dictionary?<br>
+                <input type="radio" name="q13" value="a"> {}<br>
+                <input type="radio" name="q13" value="b"> []<br>
+                <input type="radio" name="q13" value="c"> ()<br>
+                <input type="radio" name="q13" value="d"> &lt;&gt;<br>
+                </li>
+                <li>Which of these is immutable?<br>
+                <input type="radio" name="q14" value="a"> list<br>
+                <input type="radio" name="q14" value="b"> set<br>
+                <input type="radio" name="q14" value="c"> tuple<br>
+                <input type="radio" name="q14" value="d"> dict<br>
+                </li>
+                <li>How do you start a class definition in Python?<br>
+                <input type="radio" name="q15" value="a"> define class<br>
+                <input type="radio" name="q15" value="b"> class()<br>
+                <input type="radio" name="q15" value="c"> class<br>
+                <input type="radio" name="q15" value="d"> new class<br>
+                </li>
+                <li>What does the range(5) function return?<br>
+                <input type="radio" name="q16" value="a"> [1,2,3,4,5]<br>
+                <input type="radio" name="q16" value="b"> [0,1,2,3,4]<br>
+                <input type="radio" name="q16" value="c"> [0,1,2,3,4,5]<br>
+                <input type="radio" name="q16" value="d"> [1,2,3,4]<br>
+                </li>
+                <li>Which function is used to get user input?<br>
+                <input type="radio" name="q17" value="a"> get()<br>
+                <input type="radio" name="q17" value="b"> input()<br>
+                <input type="radio" name="q17" value="c"> read()<br>
+                <input type="radio" name="q17" value="d"> user_input()<br>
+                </li>
+                <li>What is the result of: len("Python")?<br>
+                <input type="radio" name="q18" value="a"> 5<br>
+                <input type="radio" name="q18" value="b"> 7<br>
+                <input type="radio" name="q18" value="c"> 6<br>
+                <input type="radio" name="q18" value="d"> Error<br>
+                </li>
+                <li>Which keyword is used to define a loop that runs until a condition is false?<br>
+                <input type="radio" name="q19" value="a"> repeat<br>
+                <input type="radio" name="q19" value="b"> do<br>
+                <input type="radio" name="q19" value="c"> while<br>
+                <input type="radio" name="q19" value="d"> until<br>
+                </li>
+                <li>What does the strip() method do?<br>
+                <input type="radio" name="q20" value="a"> Removes spaces<br>
+                <input type="radio" name="q20" value="b"> Changes case<br>
+                <input type="radio" name="q20" value="c"> Finds substrings<br>
+                <input type="radio" name="q20" value="d"> Adds dashes<br>
+                </li>
+            </ol>
+            <button type="button" onclick="submitQuiz()">Submit Quiz</button>
+            </form>
+            <div id="quiz-result"></div>
+            <a class="back-button" onclick="goBackToPythonPage()">🔙 Back to Python's Page</a>
+        `
+        ,
+            flashcards: `
+                <h1>Flashcards</h1>
+                <p>Coming Soon!</p>
+                <a class="back-button" onclick="goBackToPythonPage()">🔙 Back to Python's Page</a>
+            `,
+            resources: `
+                <h1>Resources</h1>
+                <ul>
+                    <li><a href="https://docs.python.org/3/" target="_blank">Official Python Documentation</a></li>
+                    <li><a href="https://www.youtube.com/watch?v=_uQrJ0TkZlc" target="_blank">Python Tutorial for Beginners (YouTube)</a></li>
+                </ul>
+                <a class="back-button" onclick="goBackToPythonPage()">🔙 Back to Python's Page</a>
+            `,
+            certifications: `
+                <h1>Certifications</h1>
+                <p>Earn certifications by completing Python courses on platforms like Coursera, edX, or Udemy.</p>
+                <a class="back-button" onclick="goBackToPythonPage()">🔙 Back to Python's Page</a>
+            `,
+            'coding-practice': `
+                <h1>Coding Practice Questions</h1>
+                <ol>
+                    <li>Write a Python program to check if a number is prime.</li>
+                    <li>Write a Python program to reverse a string.</li>
+                </ol>
+                <a class="back-button" onclick="goBackToPythonPage()">🔙 Back to Python's Page</a>
+            `
+        };
+
+        function navigateToSection(section) {
+            const contentDiv = document.getElementById('content');
+            contentDiv.innerHTML = sections[section];
+            contentDiv.style.display = 'block';
+            document.querySelector('.card-container').style.display = 'none';
+        }
+
+        function goBackToPythonPage() {
+            const contentDiv = document.getElementById('content');
+            contentDiv.style.display = 'none';
+            document.querySelector('.card-container').style.display = 'flex';
+        }
+
+        function submitQuiz() {
+        const answers = {
+            q1: "a", q2: "c", q3: "c", q4: "c", q5: "b",
+            q6: "b", q7: "b", q8: "c", q9: "c", q10: "b",
+            q11: "c", q12: "b", q13: "a", q14: "c", q15: "c",
+            q16: "b", q17: "b", q18: "c", q19: "c", q20: "a"
+        };
+
+        let score = 0;
+        let total = Object.keys(answers).length;
+
+        for (let q in answers) {
+            const selected = document.querySelector(`input[name="${q}"]:checked`);
+            if (selected && selected.value === answers[q]) {
+            score++;
+            }
+        }
+
+        const result = document.getElementById("quiz-result");
+        result.innerHTML = `<h3>You scored ${score} out of ${total}</h3>`;
+        result.style.marginTop = "20px";
+        }
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            document.documentElement.setAttribute(
+                "data-theme",
+                currentTheme === "dark" ? "light" : "dark"
+            );
+        }
+        function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+
+        // Update the button icon
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        themeToggleButton.textContent = newTheme === 'dark' ? '🌝' : '🌚';
+        }
+
+        // Load the saved theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // Set the initial button icon
+        window.addEventListener('DOMContentLoaded', () => {
+            const themeToggleButton = document.getElementById('themeToggleButton');
+            themeToggleButton.textContent = savedTheme === 'dark' ? '🌝' : '🌚';
+        });
+    </script>
+</body>
+</html>

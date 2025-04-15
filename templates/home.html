@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        :root {
+            --bg-color: #fff;
+            --text-color: #000;
+            --card-bg-color: #fff;
+            --card-border-color: #ddd;
+            --card-shadow-color: rgba(0, 0, 0, 0.1);
+            --gradient-hover: linear-gradient(145deg, #d6eaff, #ffffff);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #fff;
+            --card-bg-color: #1e1e1e;
+            --card-border-color: #333;
+            --card-shadow-color: rgba(0, 0, 0, 0.5);
+            --gradient-hover: linear-gradient(145deg, #1c1c1c, #2a2a2a);
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            border: 1px solid var(--card-border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px var(--card-shadow-color);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            background-color: var(--card-bg-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .card:hover {
+            /* transform: translateY(-8px); */
+            transform: scale(1.05);
+            background: var(--gradient-hover);
+            box-shadow: 0 10px 20px var(--card-shadow-color);
+        }
+
+        /* .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px var(--card-shadow-color);
+        } */
+
+        .card a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        .card a:hover {
+            text-decoration: underline;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 15px;
+            font-size: 1.2rem;
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--card-border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        footer {
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: var(--card-bg-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid var(--card-border-color);
+        }
+
+        footer .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        footer .social-links a {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+        }
+
+        footer .social-links img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        footer .social-links img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px var(--card-shadow-color);
+        }
+
+        footer nav {
+            margin: 10px 0;
+        }
+
+        footer nav a {
+            margin: 0 10px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        footer nav a:hover {
+            color: #007BFF;
+            text-decoration: underline;
+        }
+
+        footer .last-updated {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--card-border-color);
+        }
+        </style>
+    </head>
+    <body>
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleButton">🌚</button>
+        <h1>Welcome to Data Bro</h1>
+        <p>Explore the topics below:</p>
+        <div class="card-container">
+        {% for topic in topics %}
+            <a href="{{ url_for('topic_page', name=topic.slug) }}" class="card">
+            <h2>{{ topic.name }}</h2>
+            <p>{{ topic.description }}</p>
+            </a>
+        {% endfor %}
+        </div>
+    <footer>
+        <p>About Me</p>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/nivin-benny" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn">
+            </a>
+            <a href="https://github.com/your-username" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
+            </a>
+        </div>
+        <p>&copy; 2025 Nivin Benny. All rights reserved.</p>
+        <nav>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/terms-of-service">Terms of Service</a>
+            <a href="/templates/contact.html">Contact</a>
+        </nav>
+        <p class="last-updated">Last updated: January 2025</p>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            // Update the button icon
+            const themeToggleButton = document.getElementById('themeToggleButton');
+            themeToggleButton.textContent = newTheme === 'dark' ? '🌝' : '🌚';
+        }
+
+        // Load the saved theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // Set the initial button icon
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        themeToggleButton.textContent = savedTheme === 'dark' ? '🌝' : '🌚';
+    </script>
+</body>
+</html>

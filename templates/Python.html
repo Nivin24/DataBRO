@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Learning Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        :root {
+            --bg-color: #f9f9f9;
+            --text-color: #1e1e1e;
+            --card-bg-color: #ffffff;
+            --card-border-color: #e0e0e0;
+            --card-shadow-color: rgba(0, 0, 0, 0.08);
+            --accent-color: #007bff;
+            --gradient-hover: linear-gradient(145deg, #d6eaff, #ffffff);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #f5f5f5;
+            --card-bg-color: #1e1e1e;
+            --card-border-color: #2d2d2d;
+            --card-shadow-color: rgba(0, 0, 0, 0.6);
+            --gradient-hover: linear-gradient(145deg, #1c1c1c, #2a2a2a);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            transition: all 0.3s ease-in-out;
+        }
+
+        h1 {
+            margin: 40px 0 20px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+            padding: 20px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .card {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--card-border-color);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px var(--card-shadow-color);
+            padding: 24px;
+            width: 280px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            background: var(--gradient-hover);
+            box-shadow: 0 10px 20px var(--card-shadow-color);
+        }
+
+        .card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: var(--accent-color);
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--text-color);
+        }
+
+        .back-button,
+        .home-button,
+        .theme-toggle {
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            background-color: var(--card-bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--card-border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            position: fixed;
+        }
+
+        .back-button:hover,
+        .home-button:hover,
+        .theme-toggle:hover {
+            background-color: var(--card-border-color);
+        }
+
+        .back-button {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        .home-button {
+            top: 20px;
+            left: 20px;
+        }
+
+        .theme-toggle {
+            top: 20px;
+            right: 20px;
+        }
+
+        .theory-wrapper {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 20px;
+            font-size: 1.1rem;
+            line-height: 1.75;
+        }
+
+        .theory-card {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--card-border-color);
+            box-shadow: 0 4px 10px var(--card-shadow-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .theory-card:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+            box-shadow: 0 6px 16px var(--card-shadow-color);
+        }
+
+        .theory-card h2 {
+            margin-top: 0;
+            color: var(--accent-color);
+            font-size: 1.3rem;
+        }
+
+        .theory-card code {
+            background-color: rgba(0,0,0,0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 768px) {
+            .card {
+                width: 90%;
+            }
+
+            .theme-toggle,
+            .home-button,
+            .back-button {
+                font-size: 0.9rem;
+                padding: 10px 15px;
+            }
+        }
+         /* Quiz Styling */
+
+        /* Scroll Progress Bar */
+        #quiz-form-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background-color: #e0e0e0;
+            z-index: 999;
+        }
+
+        #quiz-form-progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #007bff; /* primary color accent */
+            transition: width 0.2s ease-in-out;
+        }
+
+        /* LIGHT THEME - Default */
+        #quiz-form {
+            background-color: #ffffff;
+            color: #222;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 900px;
+            margin: 80px auto;
+            font-family: 'Segoe UI', sans-serif;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+
+        #quiz-form h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+
+        #quiz-form ol {
+            padding-left: 20px;
+        }
+
+        #quiz-form li {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 15px;
+            list-style: decimal;
+        }
+
+        #quiz-form input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #007bff;
+        }
+
+        #quiz-form label {
+            display: block;
+            padding: 5px 0;
+            cursor: pointer;
+        }
+
+        #quiz-form button {
+            display: block;
+            margin: 30px auto;
+            padding: 12px 30px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #quiz-form button:hover {
+            background-color: #0056b3;
+        }
+
+        #quiz-result {
+            text-align: center;
+            font-size: 20px;
+            margin-top: 20px;
+            color: #007bff;
+        }
+
+        #quiz-form .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 18px;
+            cursor: pointer;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        #quiz-form .back-button:hover {
+            text-decoration: underline;
+        }
+
+        /* DARK THEME OVERRIDES */
+        @media (prefers-color-scheme: dark) {
+            #quiz-form {
+            background-color: #1e1e1e;
+            color: #f1f1f1;
+            box-shadow: 0 0 12px rgba(0,0,0,0.5);
+            }
+
+            #quiz-form h1 {
+            color: #00b894;
+            }
+
+            #quiz-form li {
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            }
+
+            #quiz-form input[type="radio"] {
+            accent-color: #00b894;
+            }
+
+            #quiz-form button {
+            background-color: #00b894;
+            }
+
+            #quiz-form button:hover {
+            background-color: #019e7a;
+            }
+
+            #quiz-result {
+            color: #00cec9;
+            }
+
+            #quiz-form .back-button {
+            color: #81ecec;
+            }
+
+            #quiz-form-progress-container {
+            background-color: #333;
+            }
+
+            #quiz-form-progress-bar {
+            background-color: #00b894;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleButton">🌚</button>
+    <a href="{{ url_for('home') }}">
+        <button class="home-button">Home</button>
+    </a>
+    <h1>Welcome to the Python Learning Hub</h1>
+    <div class="card-container">
+        <div class="card" onclick="navigateToSection('theory')">
+            <h2>Theory</h2>
+            <p>Learn the basics of Python programming.</p>
+        </div>
+        <div class="card" onclick="navigateToSection('quiz')">
+            <h2>Quiz</h2>
+            <p>Test your Python knowledge.</p>
+        </div>
+        <div class="card" onclick="navigateToSection('flashcards')">
+            <h2>Flashcards</h2>
+            <p>Coming Soon!</p>
+        </div>
+        <div class="card" onclick="navigateToSection('resources')">
+            <h2>Resources</h2>
+            <p>Explore helpful Python resources.</p>
+        </div>
+        <div class="card" onclick="navigateToSection('certifications')">
+            <h2>Certifications</h2>
+            <p>Earn Python certifications.</p>
+        </div>
+        <div class="card" onclick="navigateToSection('coding-practice')">
+            <h2>Coding Practice</h2>
+            <p>Practice Python coding problems.</p>
+        </div>
+    </div>
+
+    <div id="content" style="display: none; padding: 20px;">
+        <!-- Sections will be dynamically loaded here -->
+    </div>
+
+    <script>
+        const sections = {
+            theory: `
+                <div class="theory-wrapper">
+                    <h1>🧠 Python Theory</h1>
+
+                    <!-- Existing Cards -->
+                    <div class="theory-card">
+                        <h2>🔹 What is Python?</h2>
+                        <p>Python is a high-level, interpreted programming language known for its simple and readable syntax. It supports multiple programming paradigms, including procedural, object-oriented, and functional programming.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 Why Learn Python?</h2>
+                        <ul>
+                        <li>Easy to read and write.</li>
+                        <li>Widely used in data science, web development, automation, AI, etc.</li>
+                        <li>Large supportive community and extensive libraries.</li>
+                        </ul>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 Python File Extension</h2>
+                        <p>Python files have a <code>.py</code> extension. Example: <code>script.py</code></p>
+                    </div>
+
+                    <!-- More Cards Below -->
+                    <div class="theory-card">
+                        <h2>🔹 Who created Python?</h2>
+                        <p>Python was created by Guido van Rossum and was first released in 1991.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is PEP 8?</h2>
+                        <p>PEP 8 is the style guide for writing readable and consistent Python code.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 How to print output in Python?</h2>
+                        <p>Using the <code>print()</code> function. Example: <code>print("Hello, World!")</code></p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 How do you take input from a user?</h2>
+                        <p>Using the <code>input()</code> function. Example: <code>name = input("Enter your name: ")</code></p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What are variables?</h2>
+                        <p>Variables are containers for storing data values. Python does not require you to declare the type.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 How do you write comments?</h2>
+                        <p>Using the hash symbol <code>#</code>. Example: <code># This is a comment</code></p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What are data types in Python?</h2>
+                        <ul>
+                        <li><code>int</code> - Integer</li>
+                        <li><code>float</code> - Floating point number</li>
+                        <li><code>str</code> - String</li>
+                        <li><code>bool</code> - Boolean</li>
+                        <li><code>list</code>, <code>tuple</code>, <code>set</code>, <code>dict</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What are keywords?</h2>
+                        <p>Keywords are reserved words in Python that have special meaning. Example: <code>if</code>, <code>else</code>, <code>def</code>, <code>class</code></p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is indentation?</h2>
+                        <p>Python uses indentation (whitespace) to define blocks of code. It replaces the use of braces.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What are conditional statements?</h2>
+                        <p>Statements like <code>if</code>, <code>elif</code>, and <code>else</code> used to perform decisions in code.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What are loops?</h2>
+                        <p>Loops are used to execute a block of code repeatedly. Python supports <code>for</code> and <code>while</code> loops.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is a function?</h2>
+                        <p>A function is a block of code which only runs when it is called. Use the <code>def</code> keyword to define one.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is a module?</h2>
+                        <p>A module is a file containing Python code, like functions or classes, which can be imported into other Python files.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is a package?</h2>
+                        <p>A package is a collection of Python modules under a common namespace (folder with <code>__init__.py</code>).</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 Difference between list and tuple?</h2>
+                        <ul>
+                        <li>List is mutable: <code>[1, 2, 3]</code></li>
+                        <li>Tuple is immutable: <code>(1, 2, 3)</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is a dictionary?</h2>
+                        <p>A dictionary stores key-value pairs. Example: <code>{'name': 'Alice', 'age': 25}</code></p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 How to handle errors?</h2>
+                        <p>Using try-except blocks. Example:
+                        <code>
+                            try:<br>
+                            &nbsp;&nbsp;print(1/0)<br>
+                            except ZeroDivisionError:<br>
+                            &nbsp;&nbsp;print("Cannot divide by zero")
+                        </code>
+                        </p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is a class?</h2>
+                        <p>A class is a blueprint for creating objects (a combination of data and functions).</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is an object?</h2>
+                        <p>An object is an instance of a class. It contains the data and behavior defined by the class.</p>
+                    </div>
+                    <div class="theory-card">
+                        <h2>🔹 What is Inheritance in Python?</h2>
+                        <p>Inheritance allows a class to inherit properties and methods from another class. Example: <code>class Child(Parent):</code></p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is Encapsulation?</h2>
+                        <p>Encapsulation is the concept of hiding the internal details of an object and only exposing what is necessary.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is Polymorphism?</h2>
+                        <p>Polymorphism allows different classes to use the same method name, but each class can implement it differently.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is a Lambda Function?</h2>
+                        <p>A lambda function is a small anonymous function defined using the <code>lambda</code> keyword. Example: <code>square = lambda x: x*x</code></p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is map() in Python?</h2>
+                        <p><code>map()</code> applies a function to all items in an iterable. Example: <code>map(lambda x: x*2, [1, 2, 3])</code></p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is filter() in Python?</h2>
+                        <p><code>filter()</code> filters items in an iterable based on a function that returns True or False.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is reduce() in Python?</h2>
+                        <p><code>reduce()</code> (from <code>functools</code>) applies a rolling computation to items in a sequence. Example: <code>reduce(lambda x, y: x+y, [1, 2, 3])</code></p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is List Comprehension?</h2>
+                        <p>A concise way to create lists. Example: <code>[x for x in range(5) if x % 2 == 0]</code></p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What are Generators?</h2>
+                        <p>Generators are functions that return an iterator and use <code>yield</code> instead of <code>return</code>.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What are Iterators?</h2>
+                        <p>Objects with a <code>__next__()</code> method that allows iteration. Created using <code>iter()</code>.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is File Handling in Python?</h2>
+                        <p>Reading and writing files using <code>open()</code>, <code>read()</code>, <code>write()</code>, and <code>close()</code> methods.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is a Virtual Environment?</h2>
+                        <p>A tool to create isolated Python environments for different projects. Created using <code>venv</code> or <code>virtualenv</code>.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is NumPy?</h2>
+                        <p>NumPy is a powerful library for numerical computing in Python, supporting arrays, matrices, and mathematical functions.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is Pandas?</h2>
+                        <p>Pandas is a data analysis library that provides data structures like Series and DataFrames for handling tabular data.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is Matplotlib?</h2>
+                        <p>Matplotlib is a plotting library for creating static, animated, and interactive visualizations in Python.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is Seaborn?</h2>
+                        <p>Seaborn is a Python data visualization library based on Matplotlib that provides a high-level interface for drawing attractive graphics.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is Scikit-learn?</h2>
+                        <p>Scikit-learn is a Python library for machine learning that provides simple and efficient tools for data mining and data analysis.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 Difference between is and == in Python?</h2>
+                        <ul>
+                        <li><code>==</code> checks value equality</li>
+                        <li><code>is</code> checks identity (whether two variables point to the same object)</li>
+                        </ul>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is a docstring?</h2>
+                        <p>A docstring is a special string used to document a function, class, or module. Defined using triple quotes <code>"""</code>.</p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What are mutable and immutable types?</h2>
+                    <p>
+                        Mutable types can be changed after creation (e.g., <code>list</code>, <code>dict</code>). Immutable types cannot be changed (e.g., <code>int</code>, <code>str</code>, <code>tuple</code>).
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is the difference between <code>is</code> and <code>==</code>?</h2>
+                    <p>
+                        <code>==</code> checks if values are equal, while <code>is</code> checks if two variables refer to the same object in memory.
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is the use of <code>__init__</code> in Python?</h2>
+                    <p>
+                        <code>__init__</code> is a special method called when an object is created. It's used to initialize object attributes.
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is a docstring?</h2>
+                    <p>
+                        A docstring is a special string (enclosed in triple quotes) used to document a function, class, or module.
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h2>🔹 What is the difference between <code>break</code>, <code>continue</code>, and <code>pass</code>?</h2>
+                        <ul>
+                            <li><code>break</code>: exits the loop completely.</li>
+                            <li><code>continue</code>: skips to the next iteration.</li>
+                            <li><code>pass</code>: does nothing; it's a placeholder.</li>
+                        </ul>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What are Python's logical operators?</h2>
+                    <p>
+                        <code>and</code>, <code>or</code>, <code>not</code> – used to combine conditional statements.
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is a ternary operator?</h2>
+                    <p>
+                        It's a one-line shorthand for an if-else statement. Example: <code>x = 10 if a > b else 20</code>
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What are *args and **kwargs?</h2>
+                    <p>
+                        <code>*args</code> is used to pass multiple non-keyword arguments, and <code>**kwargs</code> is used to pass multiple keyword arguments to a function.
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is the difference between <code>global</code> and <code>nonlocal</code>?</h2>
+                    <p>
+                        <code>global</code> allows access to global variables. <code>nonlocal</code> is used to refer to variables in the nearest enclosing scope that is not global.
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is the difference between deep copy and shallow copy?</h2>
+                    <p>
+                        A shallow copy copies references to the original objects, while a deep copy creates completely independent copies of nested objects.
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is the use of the <code>with</code> statement?</h2>
+                    <p>
+                        The <code>with</code> statement simplifies exception handling in file operations and ensures resources are properly closed. Example: <code>with open('file.txt') as f:</code>
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is a set and how is it different from a list?</h2>
+                    <p>
+                        A set is an unordered collection of unique elements. Unlike lists, sets do not allow duplicates and do not maintain order.
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is slicing in Python?</h2>
+                    <p>
+                        Slicing is used to extract a portion of a sequence using the syntax <code>sequence[start:stop:step]</code>.
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is a lambda function?</h2>
+                    <p>
+                        A lambda function is an anonymous, one-line function defined using the <code>lambda</code> keyword. Example: <code>square = lambda x: x**2</code>
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is the difference between <code>append()</code> and <code>extend()</code> in lists?</h2>
+                    <ul>
+                        <li><code>append()</code> adds a single element to the end of the list.</li>
+                        <li><code>extend()</code> adds all elements of an iterable to the list.</li>
+                    </ul>
+                    </div>
+                    <div class="theory-card">
+                    <h2>🔹 What is a decorator in Python?</h2>
+                    <p>
+                        A decorator is a function that adds extra functionality to another function without changing its structure. It uses the <code>@decorator_name</code> syntax.
+                        <br>Example:
+                        <code>
+                        @my_decorator<br>
+                        def my_function():<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("Hello")
+                        </code>
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is a context manager in Python?</h2>
+                    <p>
+                        A context manager allows you to allocate and release resources properly using the <code>with</code> statement.
+                        <br>Example: <code>with open("file.txt") as f:</code>
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 How does <code>del</code> work in Python?</h2>
+                    <p>
+                        <code>del</code> is used to delete objects or elements from a list, dictionary, or even variables entirely from memory.
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is garbage collection in Python?</h2>
+                    <p>
+                        Python automatically frees up memory by deleting objects that are no longer used. This process is called garbage collection.
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What are Python's built-in functions?</h2>
+                    <p>
+                        Python includes many useful built-in functions like <code>len()</code>, <code>sum()</code>, <code>type()</code>, <code>max()</code>, <code>min()</code>, <code>sorted()</code>, and more.
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is the <code>zip()</code> function used for?</h2>
+                    <p>
+                        <code>zip()</code> combines multiple iterables element-wise into tuples. Example:
+                        <code>zip([1,2], ['a','b']) → [(1, 'a'), (2, 'b')]</code>
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What does the <code>map()</code> function do?</h2>
+                    <p>
+                        <code>map()</code> applies a function to all items in an iterable.
+                        <br>Example: <code>map(str.upper, ['a','b']) → ['A', 'B']</code>
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is the <code>filter()</code> function used for?</h2>
+                    <p>
+                        <code>filter()</code> is used to filter items based on a condition (returns only the elements that match the condition).
+                    </p>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is the difference between <code>id()</code> and <code>type()</code>?</h2>
+                    <ul>
+                        <li><code>id()</code> returns the memory address of an object.</li>
+                        <li><code>type()</code> returns the data type of the object.</li>
+                    </ul>
+                    </div>
+
+                    <div class="theory-card">
+                    <h2>🔹 What is the difference between shallow copy and deep copy?</h2>
+                    <p>
+                        A shallow copy copies the outer object but not nested objects. A deep copy creates completely independent copies, including nested elements.
+                        <br>Use <code>copy.copy()</code> for shallow and <code>copy.deepcopy()</code> for deep copy.
+                    </p>
+                    </div>
+
+                    <!-- Continue adding cards for topics like: -->
+                    <!-- - Inheritance -->
+                    <!-- - Encapsulation -->
+                    <!-- - Polymorphism -->
+                    <!-- - Lambda functions -->
+                    <!-- - Map, filter, reduce -->
+                    <!-- - List comprehensions -->
+                    <!-- - Generators and iterators -->
+                    <!-- - File handling -->
+                    <!-- - Virtual environments -->
+                    <!-- - Python libraries like NumPy, Pandas, etc. -->
+
+                    <a class="back-button" onclick="goBackToPythonPage()">🔙 Back to Python's Page</a>
+                    </div>
+            `,
+            quiz: `
+            <h1>Quiz</h1>
+            <form id="quiz-form">
+            <ol>
+                <li>What is the correct file extension for Python files?<br>
+                <input type="radio" name="q1" value="a"> .py<br>
+                <input type="radio" name="q1" value="b"> .python<br>
+                <input type="radio" name="q1" value="c"> .pt<br>
+                <input type="radio" name="q1" value="d"> .pyt<br>
+                </li>
+                <li>Which keyword is used to create a function in Python?<br>
+                <input type="radio" name="q2" value="a"> function<br>
+                <input type="radio" name="q2" value="b"> define<br>
+                <input type="radio" name="q2" value="c"> def<br>
+                <input type="radio" name="q2" value="d"> fun<br>
+                </li>
+                <li>What is the output of: print(type(5))?<br>
+                <input type="radio" name="q3" value="a"> &lt;type 'float'&gt;<br>
+                <input type="radio" name="q3" value="b"> &lt;type 'string'&gt;<br>
+                <input type="radio" name="q3" value="c"> &lt;type 'int'&gt;<br>
+                <input type="radio" name="q3" value="d"> &lt;type 'bool'&gt;<br>
+                </li>
+                <li>Which of these is a Python data type?<br>
+                <input type="radio" name="q4" value="a"> character<br>
+                <input type="radio" name="q4" value="b"> decimal<br>
+                <input type="radio" name="q4" value="c"> tuple<br>
+                <input type="radio" name="q4" value="d"> real<br>
+                </li>
+                <li>What is the correct way to create a list in Python?<br>
+                <input type="radio" name="q5" value="a"> list = (1, 2, 3)<br>
+                <input type="radio" name="q5" value="b"> list = [1, 2, 3]<br>
+                <input type="radio" name="q5" value="c"> list = {1, 2, 3}<br>
+                <input type="radio" name="q5" value="d"> list = &lt;1, 2, 3&gt;<br>
+                </li>
+                <li>Which operator is used for exponentiation in Python?<br>
+                <input type="radio" name="q6" value="a"> ^<br>
+                <input type="radio" name="q6" value="b"> **<br>
+                <input type="radio" name="q6" value="c"> ^^<br>
+                <input type="radio" name="q6" value="d"> // <br>
+                </li>
+                <li>What is the output of: print(10 // 3)?<br>
+                <input type="radio" name="q7" value="a"> 3.33<br>
+                <input type="radio" name="q7" value="b"> 3<br>
+                <input type="radio" name="q7" value="c"> 4<br>
+                <input type="radio" name="q7" value="d"> 10<br>
+                </li>
+                <li>Which of the following is used to handle exceptions in Python?<br>
+                <input type="radio" name="q8" value="a"> try...catch<br>
+                <input type="radio" name="q8" value="b"> handle...except<br>
+                <input type="radio" name="q8" value="c"> try...except<br>
+                <input type="radio" name="q8" value="d"> do...except<br>
+                </li>
+                <li>What does the len() function do?<br>
+                <input type="radio" name="q9" value="a"> Returns last element<br>
+                <input type="radio" name="q9" value="b"> Returns type of list<br>
+                <input type="radio" name="q9" value="c"> Returns length<br>
+                <input type="radio" name="q9" value="d"> Reverses list<br>
+                </li>
+                <li>Which keyword is used for loops in Python?<br>
+                <input type="radio" name="q10" value="a"> repeat<br>
+                <input type="radio" name="q10" value="b"> for<br>
+                <input type="radio" name="q10" value="c"> iterate<br>
+                <input type="radio" name="q10" value="d"> loop<br>
+                </li>
+                <li>How do you insert COMMENTS in Python code?<br>
+                <input type="radio" name="q11" value="a"> // comment<br>
+                <input type="radio" name="q11" value="b"> <!-- comment --><br>
+                <input type="radio" name="q11" value="c"> # comment<br>
+                <input type="radio" name="q11" value="d"> /* comment */<br>
+                </li>
+                <li>What data type is the result of: 3 > 2?<br>
+                <input type="radio" name="q12" value="a"> int<br>
+                <input type="radio" name="q12" value="b"> bool<br>
+                <input type="radio" name="q12" value="c"> float<br>
+                <input type="radio" name="q12" value="d"> string<br>
+                </li>
+                <li>Which of these is used to define a dictionary?<br>
+                <input type="radio" name="q13" value="a"> {}<br>
+                <input type="radio" name="q13" value="b"> []<br>
+                <input type="radio" name="q13" value="c"> ()<br>
+                <input type="radio" name="q13" value="d"> &lt;&gt;<br>
+                </li>
+                <li>Which of these is immutable?<br>
+                <input type="radio" name="q14" value="a"> list<br>
+                <input type="radio" name="q14" value="b"> set<br>
+                <input type="radio" name="q14" value="c"> tuple<br>
+                <input type="radio" name="q14" value="d"> dict<br>
+                </li>
+                <li>How do you start a class definition in Python?<br>
+                <input type="radio" name="q15" value="a"> define class<br>
+                <input type="radio" name="q15" value="b"> class()<br>
+                <input type="radio" name="q15" value="c"> class<br>
+                <input type="radio" name="q15" value="d"> new class<br>
+                </li>
+                <li>What does the range(5) function return?<br>
+                <input type="radio" name="q16" value="a"> [1,2,3,4,5]<br>
+                <input type="radio" name="q16" value="b"> [0,1,2,3,4]<br>
+                <input type="radio" name="q16" value="c"> [0,1,2,3,4,5]<br>
+                <input type="radio" name="q16" value="d"> [1,2,3,4]<br>
+                </li>
+                <li>Which function is used to get user input?<br>
+                <input type="radio" name="q17" value="a"> get()<br>
+                <input type="radio" name="q17" value="b"> input()<br>
+                <input type="radio" name="q17" value="c"> read()<br>
+                <input type="radio" name="q17" value="d"> user_input()<br>
+                </li>
+                <li>What is the result of: len("Python")?<br>
+                <input type="radio" name="q18" value="a"> 5<br>
+                <input type="radio" name="q18" value="b"> 7<br>
+                <input type="radio" name="q18" value="c"> 6<br>
+                <input type="radio" name="q18" value="d"> Error<br>
+                </li>
+                <li>Which keyword is used to define a loop that runs until a condition is false?<br>
+                <input type="radio" name="q19" value="a"> repeat<br>
+                <input type="radio" name="q19" value="b"> do<br>
+                <input type="radio" name="q19" value="c"> while<br>
+                <input type="radio" name="q19" value="d"> until<br>
+                </li>
+                <li>What does the strip() method do?<br>
+                <input type="radio" name="q20" value="a"> Removes spaces<br>
+                <input type="radio" name="q20" value="b"> Changes case<br>
+                <input type="radio" name="q20" value="c"> Finds substrings<br>
+                <input type="radio" name="q20" value="d"> Adds dashes<br>
+                </li>
+            </ol>
+            <button type="button" onclick="submitQuiz()">Submit Quiz</button>
+            </form>
+            <div id="quiz-result"></div>
+            <a class="back-button" onclick="goBackToPythonPage()">🔙 Back to Python's Page</a>
+        `
+        ,
+            flashcards: `
+                <style>
+                    .flashcard-container {
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                        gap: 20px;
+                        padding: 20px;
+                    }
+
+                    .flashcard {
+                        width: 280px;
+                        height: 180px;
+                        margin: 20px;
+                        perspective: 1000px;
+                        cursor: pointer;
+                        opacity: 0;
+                        transform: translateY(20px);
+                        animation: fadeInUp 0.6s ease forwards;
+                    }
+
+                    .flashcard:nth-child(1) { animation-delay: 0.1s; }
+                    .flashcard:nth-child(2) { animation-delay: 0.2s; }
+                    .flashcard:nth-child(3) { animation-delay: 0.3s; }
+                    .flashcard:nth-child(4) { animation-delay: 0.4s; }
+                    .flashcard:nth-child(5) { animation-delay: 0.1s; }
+                    .flashcard:nth-child(6) { animation-delay: 0.2s; }
+                    .flashcard:nth-child(7) { animation-delay: 0.3s; }
+                    .flashcard:nth-child(8) { animation-delay: 0.4s; }
+                    .flashcard:nth-child(9) { animation-delay: 0.1s; }
+                    .flashcard:nth-child(10) { animation-delay: 0.2s; }
+                    .flashcard:nth-child(11) { animation-delay: 0.3s; }
+                    .flashcard:nth-child(12) { animation-delay: 0.4s; }
+                    .flashcard:nth-child(13) { animation-delay: 0.1s; }
+                    .flashcard:nth-child(14) { animation-delay: 0.2s; }
+                    .flashcard:nth-child(15) { animation-delay: 0.3s; }
+                    .flashcard:nth-child(16) { animation-delay: 0.4s; }
+
+
+                    .flashcard-inner {
+                        width: 100%;
+                        height: 100%;
+                        position: relative;
+                        text-align: center;
+                        transition: transform 0.8s;
+                        transform-style: preserve-3d;
+                        border-radius: 10px;
+                    }
+
+                    .flashcard.flipped .flashcard-inner {
+                        transform: rotateY(180deg);
+                    }
+
+                    .flashcard-front,
+                    .flashcard-back {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        backface-visibility: hidden;
+                        border-radius: 10px;
+                        padding: 20px;
+                        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                    }
+
+                    .flashcard-front {
+                        background: rgba(17, 48, 119, 0.688); /* subtle blue tint */
+                        backdrop-filter: blur(12px); /* smooth blur */
+                        -webkit-backdrop-filter: blur(12px);
+                        border: 1px solid rgba(255, 255, 255, 0.18);
+                        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+                        color: #ffffff;
+                        font-weight: 600;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 20px;
+                        border-radius: 15px;
+                        transition: transform 0.6s;
+                        text-align: center;
+                    }
+
+                    .flashcard-back {
+                        background-color: #f8f9fa;
+                        color: #333;
+                        transform: rotateY(180deg);
+                    }
+                    .space{
+                        height: 100px;
+                        width: 100%;}
+
+                    @keyframes fadeInUp {
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+
+            </style>
+
+            <h1>Flashcards</h1>
+
+            <div class="flashcard-container">
+                <!-- Flashcard 1 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            What is a variable in Python?
+                        </div>
+                        <div class="flashcard-back">
+                            A container for storing data values.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flashcard 2 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            Define a list.
+                        </div>
+                        <div class="flashcard-back">
+                            An ordered, mutable collection of items.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flashcard 3 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            What does 'len()' do?
+                        </div>
+                        <div class="flashcard-back">
+                            Returns the number of items in an object.
+                        </div>
+                    </div>
+                </div>
+                <!-- Flashcard 4 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            What is a function in Python?
+                        </div>
+                        <div class="flashcard-back">
+                            A block of code that performs a specific task.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flashcard 5 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            Difference between list and tuple?
+                        </div>
+                        <div class="flashcard-back">
+                            Lists are mutable, tuples are immutable.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flashcard 6 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            What is a dictionary in Python?
+                        </div>
+                        <div class="flashcard-back">
+                            A collection of key-value pairs.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flashcard 7 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            What is indentation used for?
+                        </div>
+                        <div class="flashcard-back">
+                            To define blocks of code (like in loops/functions).
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flashcard 8 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            What does 'input()' do?
+                        </div>
+                        <div class="flashcard-back">
+                            Takes user input as a string.
+                        </div>
+                    </div>
+                </div>
+                <!-- Flashcard 9 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                    <div class="flashcard-front">What is a variable?</div>
+                    <div class="flashcard-back">A name used to store data in memory.</div>
+                    </div>
+                </div>
+                
+                <!-- Flashcard 10 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                    <div class="flashcard-front">What is the output of print(2 + 3 * 4)?</div>
+                    <div class="flashcard-back">14 (Multiplication has higher precedence)</div>
+                    </div>
+                </div>
+                
+                <!-- Flashcard 11 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                    <div class="flashcard-front">How do you write a comment?</div>
+                    <div class="flashcard-back">Using the # symbol.</div>
+                    </div>
+                </div>
+                
+                <!-- Flashcard 12 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                    <div class="flashcard-front">What is a loop?</div>
+                    <div class="flashcard-back">A way to repeat code multiple times.</div>
+                    </div>
+                </div>
+                
+                <!-- Flashcard 13 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                    <div class="flashcard-front">What are the two main types of loops?</div>
+                    <div class="flashcard-back">for loop and while loop.</div>
+                    </div>
+                </div>
+                
+                <!-- Flashcard 14 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                    <div class="flashcard-front">What does 'len()' return?</div>
+                    <div class="flashcard-back">The length of a string, list, or other collections.</div>
+                    </div>
+                </div>
+                
+                <!-- Flashcard 15 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                    <div class="flashcard-front">What is type casting?</div>
+                    <div class="flashcard-back">Converting one data type to another.</div>
+                    </div>
+                </div>
+                
+                <!-- Flashcard 16 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                    <div class="flashcard-front">How do you check type of a variable?</div>
+                    <div class="flashcard-back">Using the type() function.</div>
+                    </div>
+                </div>
+            </div>
+            <div class ='space'></div>
+
+            <a class="back-button" onclick="goBackToPythonPage()">🔙 Back to Python's Page</a>
+            `,
+            resources: `
+                <style>
+                    .resource-container {
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                        gap: 20px;
+                        padding: 20px;
+                    }
+
+
+                    .card:nth-child(1) { animation-delay: 0.1s; }
+                    .card:nth-child(2) { animation-delay: 0.2s; }
+                    .card:nth-child(3) { animation-delay: 0.3s; }
+                    .card:nth-child(4) { animation-delay: 0.4s; }
+                    .card:nth-child(5) { animation-delay: 0.5s; }
+
+                    @keyframes fadeInUp {
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+
+                    .card iframe {
+                        width: 100%;
+                        height: 140px;
+                        object-fit: cover;
+                    }
+                    
+                    .card img {
+                        width: 100px;
+                        height: auto;
+                        border-radius: 5%;
+                        display: block;
+                        margin: 0 auto 15px;
+                    }
+
+
+                </style>
+                <h1>Python Resources</h1>
+
+                <div class="resource-container">
+
+                    <!-- YouTube Tutorial -->
+                    <div class="card" onclick="window.open('https://www.youtube.com/watch?v=_uQrJ0TkZlc', '_blank')">
+                        <iframe src="https://www.youtube.com/embed/_uQrJ0TkZlc" frameborder="0" allowfullscreen></iframe>
+                        <h3>Python Tutorial for Beginners</h3>
+                    </div>
+
+                    <!-- Official Python Docs -->
+                    <div class="card" onclick="window.open('https://docs.python.org/3/', '_blank')">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python Docs">
+                        <h3>Official Python Documentation</h3>
+                    </div>
+
+                    <!-- W3Schools Python -->
+                    <div class="card" onclick="window.open('https://www.w3schools.com/python/', '_blank')">
+                        <img src="https://www.w3schools.com/images/w3schools_green.jpg" alt="W3Schools Python">
+                        <h3>W3Schools Python Tutorial</h3>
+                    </div>
+
+                    <!-- GeeksForGeeks Python -->
+                    <div class="card" onclick="window.open('https://www.geeksforgeeks.org/python-programming-language/', '_blank')">
+                        <img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gfg_200X200.png" alt="GeeksForGeeks Python">
+                        <h3>GeeksForGeeks Python</h3>
+                    </div>
+
+                    <!-- FreeCodeCamp YouTube -->
+                    <div class="card" onclick="window.open('https://www.youtube.com/watch?v=rfscVS0vtbw', '_blank')">
+                        <iframe src="https://www.youtube.com/embed/rfscVS0vtbw" frameborder="0" allowfullscreen></iframe>
+                        <h3>FreeCodeCamp Python Course</h3>
+                    </div>
+
+                </div>
+                
+
+                <a class="back-button" onclick="goBackToPythonPage()">🔙 Back to Python's Page</a>
+            `,
+            certifications: `
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+                <style>
+                
+                    p {
+                        text-align: center;
+                        }
+                    .card {
+                        opacity: 0;
+                        transform: translateY(20px);
+                        animation: fadeInUp 0.6s ease forwards;
+                    }
+                    .card:hover {
+                        transform: scale(1.05);
+                        box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2);
+                    }
+
+                    .card:nth-child(1) { animation-delay: 0.1s; }
+                    .card:nth-child(2) { animation-delay: 0.3s; }
+                    .card:nth-child(3) { animation-delay: 0.5s; }
+
+                    @keyframes fadeInUp {
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                        }
+                    }
+                        
+                    .card img {
+                        width: 100px;
+                        height: auto;
+                        border-radius: 5%;
+                        //   display: block;
+                        margin: 0 auto 15px;
+                    }
+
+                    .card.coursera {
+                        border-top: 6px solid #2a73cc;
+                    }
+
+                    .card.edx {
+                        border-top: 6px solid #a020f0;
+                    }
+
+                    .card.udemy {
+                        border-top: 6px solid #ec5252;
+                    }
+                    .course-info {
+                        max-height: 0;
+                        overflow: hidden;
+                        transition: max-height 0.4s ease, opacity 0.4s ease;
+                        opacity: 0;
+                    }
+
+                    .course-info.active {
+                    max-height: 200px;
+                    opacity: 1;
+                    }
+
+                    .course-info p {
+                        margin: 5px 0;
+                    }
+
+                    .course-info a {
+                        color: #007bff;
+                        font-weight: bold;
+                        text-decoration: none;
+                    }
+
+                    .course-info a:hover {
+                        text-decoration: underline;
+                    }
+                    </style>
+
+                    <h1>Certifications</h1>
+                    <p>Earn certifications by completing Python courses on platforms like Coursera, edX, or Udemy.</p>
+
+                    <div class="card-container">
+                        <div class="card coursera" onclick="toggleCourse('coursera')">
+                            <img src="https://infostride.com/wp-content/uploads/2024/06/Thumbnail_508fa1.png?w=1024" alt="Coursera Logo">
+                            <div id="coursera" class="course-info">
+                                <p><strong>Course:</strong> Python for Everybody</p>
+                                <p><em>Beginner-friendly Python course by University of Michigan.</em></p>
+                                <p><i class="fa-solid fa-clock"></i> 4 weeks (3–4 hrs/week)</p>
+                                <p><i class="fa-solid fa-certificate"></i> Shareable Certificate</p>
+                                <p><i class="fa-solid fa-star"></i> 4.8 (60K+ ratings)</p>
+                                <a href="https://www.coursera.org/specializations/python" target="_blank">Go to Course</a>
+                            </div>
+                        </div>
+
+                        <div class="card edx" onclick="toggleCourse('edx')">
+                            <img src="data:image/jpeg;base64,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" alt="edX Logo">
+                            <div id="edx" class="course-info">
+                                <p><strong>Course:</strong> Intro to Computer Science & Python</p>
+                                <p><em>MIT's legendary Python & CS fundamentals course.</em></p>
+                                <p><i class="fa-solid fa-clock"></i> 9 weeks (14–16 hrs/week)</p>
+                                <p><i class="fa-solid fa-certificate"></i> Verified Certificate</p>
+                                <p><i class="fa-solid fa-star"></i> 4.7 (45K+ ratings)</p>
+                                <a href="https://www.edx.org/course/introduction-to-computer-science-and-programming-7" target="_blank">Go to Course</a>
+                            </div>
+                        </div>
+
+                        <div class="card udemy" onclick="toggleCourse('udemy')">
+                            <img src="data:image/png;base64,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" alt="Udemy Logo">
+                            <div id="udemy" class="course-info">
+                                <p><strong>Course:</strong> Complete Python Bootcamp</p>
+                                <p><em>Best-seller course covering Python 3 from scratch.</em></p>
+                                <p><i class="fa-solid fa-clock"></i> 22 hours on-demand video</p>
+                                <p><i class="fa-solid fa-certificate"></i> Certificate of Completion</p>
+                                <p><i class="fa-solid fa-star"></i> 4.7 (900K+ ratings)</p>
+                                <a href="https://www.udemy.com/course/complete-python-bootcamp/" target="_blank">Go to Course</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a class="back-button" onclick="goBackToPythonPage()">🔙 Back to Python's Page</a>
+
+            `,
+            'coding-practice': `
+                    <div id="coding-practice-section">
+                    <style>
+                    #coding-practice-section {
+                        height: 90vh;
+                        display: flex;
+                        overflow: hidden;
+                        font-family: Arial, sans-serif;
+                    }
+                
+                    .left-pane {
+                        
+                        width: 40%;
+                        min-width: 35vw;
+                        padding: 20px;
+                        border-right: 3px solid #444;
+                        border-radius: 12px;
+                        margin: 10px;
+                        box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+                    }
+                    .right-pane {
+                        width: 50%;
+                        min-width: 55vw;
+                        flex-grow: 1;
+                        padding: 10px;
+                        overflow: hidden;
+                        display: flex;
+                        flex-direction: column;
+                    }
+                
+                    .right-pane iframe {
+                        flex-grow: 1;
+                        border: none;
+                        border-radius: 8px;
+                        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+                    }
+                    ::-webkit-scrollbar {
+                        width: 6px;
+                    }
+                    ::-webkit-scrollbar-thumb {
+                        background-color: #888;
+                        border-radius: 4px;
+                    }
+                    
+                    </style>
+
+                    <div class="left-pane" id="left-pane">
+                        <h1>Practice Questions</h1>
+                        <div style="max-height: 70vh; overflow-y: auto; padding-right: 10px;">
+                            <ol style="font-size: 20px;">
+                                <li>Write a Python program to check if a number is prime.</li>
+                                <li>Write a Python program to reverse a string.</li>
+                                <li>Write a Python program to find the factorial of a number.</li>
+                                <li>Write a Python program to check if a string is a palindrome.</li>
+                                <li>Write a Python program to find the largest element in a list.</li>
+                                <li>Write a Python program to count the number of vowels in a string.</li>
+                                <li>Write a Python program to remove duplicates from a list.</li>
+                                <li>Write a Python program to sort a list of numbers.</li>
+                                <li>Write a Python program to find the intersection of two lists.</li>
+                                <li>Write a Python program to merge two dictionaries.</li>
+                                <li>Write a Python program to find the common elements in two lists.</li>
+                                <li>Write a Python program to find the sum of all even numbers in a list.</li>
+                                <li>Write a Python program to find the sum of all odd numbers in a list.</li>
+                                <li>Write a Python program to find the maximum and minimum values in a list.</li>
+                                <li>Write a Python program to find the second largest number in a list.</li>
+                                <li>Write a Python program to find the length of a string without using the len() function.</li>
+                                <li>Write a Python program to find the frequency of each character in a string.</li>
+                                <li>Write a Python program to find the common elements in three lists.</li>
+                                <li>Write a Python program to find the longest word in a list.</li>
+                                <li>Write a Python program to find the shortest word in a list.</li>
+                                <li>Write a Python program to find the sum of all numbers in a list.</li>
+                                <li>Write a Python program to find the average of all numbers in a list.</li>
+                                <li>Write a Python program to find the median of a list of numbers.</li>
+                                <li>Write a Python program to find the mode of a list of numbers.</li>
+                                <li>Write a Python program to find the standard deviation of a list of numbers.</li>
+                                <li>Write a Python program to find the variance of a list of numbers.</li>
+                                <li>Write a Python program to find the range of a list of numbers.</li>
+                                <li>Write a Python program to find the sum of squares of a list of numbers.</li>
+                                <li>Write a Python program to find the sum of cubes of a list of numbers.</li>
+                                <li>Write a Python program to find the product of all numbers in a list.</li>
+                                <li>Write a Python program to find the GCD of two numbers.</li>
+                                <li>Write a Python program to find the LCM of two numbers.</li>
+                                <li>Write a Python program to find the Fibonacci series up to n terms.</li>
+                                <li>Write a Python program to find the prime factors of a number.</li>
+                                <li>Write a Python program to find the sum of digits of a number.</li>
+                                <li>Write a Python program to find the reverse of a number.</li>
+                                <li>Write a Python program to find the factorial of a number using recursion.</li>
+                                <li>Write a Python program to find the Fibonacci series using recursion.</li>
+                                <li>Write a Python program to find the GCD of two numbers using recursion.</li>
+                                <li>Write a Python program to find the LCM of two numbers using recursion.</li>
+                                <li>Write a Python program to find the sum of digits of a number using recursion.</li>
+                                <li>Write a Python program to find the reverse of a number using recursion.</li>
+                                <li>Write a Python program to find the factorial of a number using iteration.</li>
+                                <li>Write a Python program to find the Fibonacci series using iteration.</li>   
+                            </ol>
+                        </div>
+                        <a class="back-button" onclick="goBackToPythonPage()">🔙 Back to Python's Page</a>
+                    </div>
+
+                
+                    <div class="right-pane">
+                    <h2 style="font-size: 36px;">Try it Yourself 👇</h2>
+                    <iframe src="https://trinket.io/embed/python/3d8d7ce66b?toggleCode=true" allowfullscreen></iframe>
+                    </div>
+                </div>
+`
+        };
+
+        function navigateToSection(section) {
+            const contentDiv = document.getElementById('content');
+            contentDiv.innerHTML = sections[section];
+            contentDiv.style.display = 'block';
+            document.querySelector('.card-container').style.display = 'none';
+        }
+
+        function goBackToPythonPage() {
+            const contentDiv = document.getElementById('content');
+            contentDiv.style.display = 'none';
+            document.querySelector('.card-container').style.display = 'flex';
+        }
+
+        function submitQuiz() {
+        const answers = {
+            q1: "a", q2: "c", q3: "c", q4: "c", q5: "b",
+            q6: "b", q7: "b", q8: "c", q9: "c", q10: "b",
+            q11: "c", q12: "b", q13: "a", q14: "c", q15: "c",
+            q16: "b", q17: "b", q18: "c", q19: "c", q20: "a"
+        };
+
+        let score = 0;
+        let total = Object.keys(answers).length;
+
+        for (let q in answers) {
+            const selected = document.querySelector(`input[name="${q}"]:checked`);
+            if (selected && selected.value === answers[q]) {
+            score++;
+            }
+        }
+
+        const result = document.getElementById("quiz-result");
+        result.innerHTML = `<h3>You scored ${score} out of ${total}</h3>`;
+        result.style.marginTop = "20px";
+        }
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            document.documentElement.setAttribute(
+                "data-theme",
+                currentTheme === "dark" ? "light" : "dark"
+            );
+        }
+        function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+
+        // Update the button icon
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        themeToggleButton.textContent = newTheme === 'dark' ? '🌝' : '🌚';
+        }
+
+        // Load the saved theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // Set the initial button icon
+        window.addEventListener('DOMContentLoaded', () => {
+            const themeToggleButton = document.getElementById('themeToggleButton');
+            themeToggleButton.textContent = savedTheme === 'dark' ? '🌝' : '🌚';
+        });
+        function toggleCourse(id) {
+            const selected = document.getElementById(id);
+            const all = document.querySelectorAll('.course-info');
+
+            all.forEach(div => {
+                div.classList.remove('active');
+            });
+
+            if (selected.style.maxHeight) {
+                selected.classList.remove('active');
+            } else {
+                selected.classList.add('active');
+            }
+        }
+        
+    </script>
+</body>
+</html>

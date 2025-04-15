@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DSA Quiz</title>
+</head>
+<body>
+    <h1>DSA Quiz</h1>
+    <form method="POST">
+        {% for question in quiz %}
+            <div>
+                <p>{{ question.question }}</p>
+                {% for option in question.options %}
+                    <input type="radio" name="q{{ loop.index }}" value="{{ option }}"> {{ option }}<br>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

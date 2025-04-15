@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Python Quiz</title>
+</head>
+<body>
+    <h1>Python Quiz</h1>
+    {% if score is defined %}
+        <h2>Your Score: {{ score }} out of {{ quiz|length }}</h2>
+    {% endif %}
+    <form method="POST">
+        {% for question in quiz %}
+            <div>
+                <p>{{ question.question }}</p>
+                {% set qid = loop.index0 %} <!-- zero-based index -->
+                {% for option in question.options %}
+                    <input type="radio" name="q{{ qid }}" value="{{ option }}"> {{ option }}<br>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
