@@ -159,7 +159,7 @@
         <p>Explore the topics below:</p>
         <div class="card-container">
         {% for topic in topics %}
-            <a href="{{ url_for('topic_page', name=topic.slug) }}" class="card">
+            <a href="{{ url_for('topic_page', slug=topic.slug) }}" class="card">
             <h2>{{ topic.name }}</h2>
             <p>{{ topic.description }}</p>
             </a>
