@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data BRO</title>
     <link rel="icon" href="{{ url_for('static', filename='databro.png') }}" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
         :root {
             --bg-color: #fff;
@@ -13,15 +14,31 @@
             --card-border-color: #ddd;
             --card-shadow-color: rgba(0, 0, 0, 0.1);
             --gradient-hover: linear-gradient(145deg, #d6eaff, #ffffff);
+            --icon-bg-color: #007BFF;
+            --icon-box-color: #c5cbd1;
+            --icon-color: #fff;
+            --icon-hover-bg-color: #0056b3;
+            --icon-hover-color: #fff;
+            --icon-hover-border-color: #004494;
         }
 
         [data-theme="dark"] {
             --bg-color: #121212;
             --text-color: #fff;
-            --card-bg-color: #1e1e1e;
-            --card-border-color: #333;
+            --card-bg-color: #271b43;
+            --card-border-color: #2c1d50;
             --card-shadow-color: rgba(0, 0, 0, 0.5);
-            --gradient-hover: linear-gradient(145deg, #1c1c1c, #2a2a2a);
+            --gradient-hover: linear-gradient(145deg, #271b43, #200e49);
+            --icon-bg-color: #4e23c3;
+            --icon-box-color: rgba(44, 16, 95, 0.9);
+            backdrop-filter: blur(12px);
+            --icon-color: #fff;
+            --icon-hover-bg-color: #5f41af;
+            --icon-hover-color: #fff;
+            --icon-hover-border-color: #3e1f8b;
+/*             --card-bg-color: #1e1e1e;
+            --card-border-color: #333;
+            --gradient-hover: linear-gradient(145deg, #1c1c1c, #2a2a2a); */
         }
 
         body {
@@ -152,6 +169,32 @@
             font-size: 0.9rem;
             color: var(--card-border-color);
         }
+
+        .chatbot-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--icon-bg-color);
+            color: var(--text-color);
+            border-radius: 50%;
+            border: 1.5px solid var(--icon-border-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            z-index: 1000;
+        }
+
+        .chatbot-icon:hover {
+            background: var(--icon-hover-bg-color);
+            color: var(--text-color);
+        }
+        
         .main-heading {
             margin-top: 80px;
             font-size: 2.5rem;
@@ -195,6 +238,125 @@
         </nav>
         <p class="last-updated">Last updated: January 2025</p>
     </footer>
+
+    <!-- Floating Chatbot Icon -->
+    <div class="chatbot-icon" id="chatbotIcon" title="Chat with us" aria-label="Chat with us">
+        <span aria-hidden="true">&#128172;</span>
+        <span class="sr-only">Chat with us</span>
+    </div>
+    <!-- Chatbot Popup -->
+    <div id="chatbotPopup" style="display:none; position:fixed; bottom:90px; right:20px; width:340px; background:var(--icon-bg-color); color:var(--text-color); border-radius:18px; box-shadow:0 8px 32px rgba(0,0,0,0.18); z-index:1001; font-size:1rem; overflow:hidden; transform:scale(0.8); opacity:0; pointer-events:none; transition:transform 0.32s cubic-bezier(.4,1.6,.6,1), opacity 0.22s cubic-bezier(.4,1.6,.6,1); border:1px solid var(--icon-border-color);">
+        <div style="padding:1rem 1.2rem; border-bottom:1px solid #e3e3e3; font-weight:bold; background:#061366; color:#fff; border-radius:18px 18px 0 0; display:flex; align-items:center; justify-content:space-between;">
+            <span>DataBRO Help</span>
+            <span style="cursor:pointer; font-size:1.5rem; margin-left:1rem;" id="closeChatbot" title="Close">&times;</span>
+        </div>
+        <div style="padding:1.2rem 1.2rem 0.5rem;">
+            <p style="margin-bottom:1em;">👋 Hi! How can we help you?</p>
+            <ul id="faq-list" style="padding-left:1.2em; margin-bottom:1.5em;">
+                <li style="margin-bottom:0.7em; cursor:pointer;">
+                    <strong class="faq-question">What is DataBRO?</strong>
+                    <div class="faq-answer" style="display:none; font-size:0.95em; margin-top:0.3em;">
+                        A platform to guide you in Data Science and Machine Learning learning paths.
+                    </div>
+                </li>
+                <li style="margin-bottom:0.7em; cursor:pointer;">
+                    <strong class="faq-question">How do I start?</strong>
+                    <div class="faq-answer" style="display:none; font-size:0.95em; margin-top:0.3em;">
+                        Browse topics on the homepage and click to explore resources.
+                    </div>
+                </li>
+                <li style="margin-bottom:0.7em; cursor:pointer;">
+                    <strong class="faq-question">Is this free?</strong>
+                    <div class="faq-answer" style="display:none; font-size:0.95em; margin-top:0.3em;">
+                        Yes, all resources are free to access.
+                    </div>
+                </li>
+                <li style="margin-bottom:0.7em; cursor:pointer;">
+                    <strong class="faq-question">How to contact support?</strong>
+                    <div class="faq-answer" style="display:none; font-size:0.95em; margin-top:0.3em;">
+                        Email us at info@example.com or use the contact button below.
+                    </div>
+                </li>
+            </ul>
+            <div style="display:flex; justify-content:center;">
+                <a href="{{ url_for('contact') }}" 
+                   style="display:inline-block; padding:0.7em 1.6em; background:linear-gradient(90deg,#007BFF 60%,#4F8CFF 100%); color:#fff; font-weight:600; border:none; border-radius:32px; box-shadow:0 2px 8px rgba(0,123,255,0.10); text-decoration:none; font-size:1.08em; transition:background 0.2s, box-shadow 0.2s;">
+                    <i class="fas fa-envelope" style="margin-right:0.5em;"></i>Contact Us
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        const chatbotIcon = document.getElementById('chatbotIcon');
+        const chatbotPopup = document.getElementById('chatbotPopup');
+        const closeChatbot = document.getElementById('closeChatbot');
+
+        function showChatbotPopup() {
+            chatbotPopup.style.display = 'block';
+            void chatbotPopup.offsetWidth;
+            chatbotPopup.style.transform = 'scale(1)';
+            chatbotPopup.style.opacity = '1';
+            chatbotPopup.style.pointerEvents = 'auto';
+        }
+
+        function hideChatbotPopup() {
+            chatbotPopup.style.transform = 'scale(0.8)';
+            chatbotPopup.style.opacity = '0';
+            chatbotPopup.style.pointerEvents = 'none';
+            setTimeout(() => {
+                if (chatbotPopup.style.opacity === '0') {
+                    chatbotPopup.style.display = 'none';
+                }
+            }, 320);
+        }
+
+        chatbotIcon.onclick = function() {
+            if (chatbotPopup.style.display === 'none' || chatbotPopup.style.opacity === '0') {
+                showChatbotPopup();
+            } else {
+                hideChatbotPopup();
+            }
+        };
+        closeChatbot.onclick = function() {
+            hideChatbotPopup();
+        };
+        window.addEventListener('click', function(e) {
+            if (!chatbotPopup.contains(e.target) && !chatbotIcon.contains(e.target)) {
+                hideChatbotPopup();
+            }
+        });
+        chatbotPopup.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Update chatbot icon and popup theme on theme change
+        function updateChatbotTheme() {
+            // No JS needed, CSS uses CSS variables for theme
+            // But if you want to update popup border color for the header:
+            const rootStyles = getComputedStyle(document.documentElement);
+            chatbotPopup.style.background = rootStyles.getPropertyValue('--icon-box-color').trim();
+            chatbotPopup.style.color = rootStyles.getPropertyValue('icon-color').trim();
+        }
+
+        // Listen for theme changes
+        const observer = new MutationObserver(updateChatbotTheme);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+        // Initial update
+        updateChatbotTheme();
+
+        document.querySelectorAll('#faq-list .faq-question').forEach(function(q) {
+                    q.addEventListener('click', function(e) {
+                        var answer = this.nextElementSibling;
+                        var isVisible = answer.style.display === 'block';
+                        // Hide all answers
+                        document.querySelectorAll('#faq-list .faq-answer').forEach(function(a) {
+                            a.style.display = 'none';
+                        });
+                        // Toggle current
+                        answer.style.display = isVisible ? 'none' : 'block';
+                    });
+                });
+    </script>
 
     <script>
         function toggleTheme() {
