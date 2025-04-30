@@ -44,6 +44,11 @@ def topic_page(slug):
 def page_not_found(e):
     return render_template('404.html'), 404
 
+# Route: Contact Page
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
 # Run app for deployment
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
