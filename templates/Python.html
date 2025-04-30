@@ -1445,6 +1445,10 @@
                         margin: 10px;
                         box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
                     }
+                    #left-pane ol li {
+                        margin-bottom: 18px;
+                        line-height: 1.6;
+                    }
                     .right-pane {
                         width: 50%;
                         min-width: 55vw;
@@ -1467,6 +1471,29 @@
                     ::-webkit-scrollbar-thumb {
                         background-color: #888;
                         border-radius: 4px;
+                    }
+                    /* Hide the coding iframe and center the questions on small screens */
+                    @media (max-width: 900px) {
+                        #coding-practice-section {
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            height: auto;
+                        }
+                        .left-pane {
+                            width: 95vw;
+                            min-width: unset;
+                            margin: 30px 0 0 0;
+                            border-right: none;
+                            border-radius: 16px;
+                            box-shadow: 0 0 8px rgba(0,0,0,0.15);
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                        }
+                        .right-pane {
+                            display: none;
+                        }
                     }
                     
                     </style>
