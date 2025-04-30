@@ -52,7 +52,6 @@
             flex-wrap: wrap;
             gap: 24px;
             justify-content: center;
-            padding: 20px;
             max-width: 1200px;
             width: 100%;
         }
@@ -93,7 +92,6 @@
                 flex-direction: column;
                 align-items: center;
                 gap: 16px;
-                padding: 10px;
             }
             .card {
                 width: 100%;
@@ -107,13 +105,24 @@
         @media (min-width: 601px) and (max-width: 1024px) {
             .card-container {
                 gap: 18px;
-                padding: 12px;
             }
             .card {
                 width: 100%;
                 max-width: 100%;
                 padding: 18px;
                 box-sizing: border-box;
+            }
+        }
+        /* Responsive for 1024px laptop size */
+        @media (min-width: 1024px) and (max-width: 1280px) {
+            .card-container {
+            gap: 20px;
+            }
+            .card {
+            width: 45%;
+            max-width: 420px;
+            padding: 20px;
+            box-sizing: border-box;
             }
         }
 
@@ -385,33 +394,13 @@
             <h2>Coding Practice</h2>
             <p>Practice Python coding problems.</p>
         </div>
-        <div class="animation-card">
+        <div class="card animation-card" style="cursor: default; pointer-events: none;">
             <img
                 src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"
                 alt="Python Logo"
                 style="width: 100px; margin: 0 auto; display: block;"
             />
         </div>
-
-        <style>
-            .animation-card {
-                background-color: var(--card-bg-color);
-                border: 1px solid var(--card-border-color);
-                border-radius: 16px;
-                box-shadow: 0 4px 12px var(--card-shadow-color);
-                padding: 24px;
-                width: 280px;
-                text-align: center;
-                cursor: default;
-                margin: 20px auto; /* Center horizontally */
-            }
-
-            @media (max-width: 768px) {
-                .animation-card {
-                    width: 90%; /* Adjust width for smaller screens */
-                }
-            }
-        </style>
     </div>
 
     <div id="content" style="display: none; padding: 20px;">
