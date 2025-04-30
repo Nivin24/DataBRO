@@ -87,6 +87,35 @@
             font-size: 0.95rem;
             color: var(--text-color);
         }
+        /* Responsive for mobile only */
+        @media (max-width: 600px) {
+            .card-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+                padding: 10px;
+            }
+            .card {
+                width: 100%;
+                max-width: 100%;
+                padding: 16px;
+                box-sizing: border-box;
+            }
+        }
+
+        /* Responsive for tablet size */
+        @media (min-width: 601px) and (max-width: 1024px) {
+            .card-container {
+                gap: 18px;
+                padding: 12px;
+            }
+            .card {
+                width: 100%;
+                max-width: 100%;
+                padding: 18px;
+                box-sizing: border-box;
+            }
+        }
 
         .back-button,
         .home-button,
