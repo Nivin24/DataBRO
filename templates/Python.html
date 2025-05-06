@@ -358,7 +358,7 @@
             <img id="homeIcon" src="https://img.icons8.com/ios-filled/50/home-page.png" alt="Home" style="width: 20px; vertical-align: middle; filter: invert(50%);">
         </button>
     </a>
-    <h1 style="margin-top: 60px;">Welcome to the Python Learning Hub</h1>
+    <h1 id="welcomeTitle" style="margin-top: 60px;">Welcome to the Python Learning Hub</h1>
     <div class="card-container">
         <div class="card" onclick="navigateToSection('theory')">
             <h2>Theory</h2>
@@ -1562,6 +1562,7 @@
         };
 
         function navigateToSection(section) {
+            document.getElementById('welcomeTitle').style.display = 'none';
             const contentDiv = document.getElementById('content');
             contentDiv.innerHTML = sections[section];
             contentDiv.style.display = 'block';
@@ -1569,6 +1570,7 @@
         }
 
         function goBackToPythonPage() {
+            document.getElementById('welcomeTitle').style.display = 'block';
             const contentDiv = document.getElementById('content');
             contentDiv.style.display = 'none';
             document.querySelector('.card-container').style.display = 'flex';
