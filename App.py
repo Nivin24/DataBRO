@@ -35,8 +35,6 @@ def make_session_permanent():
     app.permanent_session_lifetime = timedelta(minutes=10)
 
 # DB config
-#Debug or testing
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("SUPABASE_DB_URL")
 
