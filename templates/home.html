@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data BRO</title>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='databro.png') }}" sizes="96x96" />
-<!--     <link rel="icon" type="image/svg+xml" href="/ff/favicon.svg" /> -->
     <link rel="shortcut icon" href="/ff/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='databro.png') }}" />
     <meta name="apple-mobile-web-app-title" content="Data BRO" />
@@ -17,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
         :root {
-            --bg-color: #fff;
+            --bg-color: #f9f9f9;
             --text-color: #000;
             --card-bg-color: #fff;
             --card-border-color: #ddd;
@@ -32,7 +31,9 @@
         }
 
         [data-theme="dark"] {
-            --bg-color: #121212;
+/*             --bg-color: #121212; */
+            --bg-color: #100a1b;
+            --bg-gradient: linear-gradient(135deg, #100a1b, #271b43);
             --text-color: #fff;
             --card-bg-color: #271b43;
             --card-border-color: #2c1d50;
@@ -45,9 +46,6 @@
             --icon-hover-bg-color: #5f41af;
             --icon-hover-color: #fff;
             --icon-hover-border-color: #3e1f8b;
-/*             --card-bg-color: #1e1e1e;
-            --card-border-color: #333;
-            --gradient-hover: linear-gradient(145deg, #1c1c1c, #2a2a2a); */
         }
 
         body {
@@ -59,6 +57,7 @@
             align-items: center;
             flex-direction: column;
             background-color: var(--bg-color);
+            background-image: var(--bg-gradient, none);
             color: var(--text-color);
             transition: background-color 0.3s ease, color 0.3s ease;
         }
@@ -91,11 +90,6 @@
             box-shadow: 0 10px 20px var(--card-shadow-color);
         }
 
-        /* .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 15px var(--card-shadow-color);
-        } */
-
         .card a {
             text-decoration: none;
             color: #007BFF;
@@ -108,9 +102,11 @@
 
         .theme-toggle {
             position: fixed;
+            width: 48px;
+            height: 47px;
             top: 20px;
             right: 20px;
-            padding: 15px 15px;
+/*             padding: 12px 15px; */
             font-size: 1.2rem;
             background-color: var(--card-bg-color);
             border: 1px solid var(--card-border-color);
@@ -120,63 +116,104 @@
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
         footer {
-            position: relative;
-            bottom: 0;
-            width: 100%;
-            box-sizing: border-box;
-            background-color: var(--card-bg-color);
-            color: var(--text-color);
+        background-color: #1c2331;
+        color: white;
+        text-align: center;
+        }
+
+        .footer-top {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding: 1rem;
+        background-color: #5e32d5;
+        }
+
+        .footer-top span {
+        margin-bottom: 10px;
+        display: block;
+        }
+
+        .social-icons a {
+        margin-right: 1rem;
+        color: white;
+        text-decoration: none;
+        font-size: 1.2rem;
+        }
+
+        .footer-content {
+        max-width: 1200px;
+        margin: auto;
+        padding: 3rem 1rem 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        text-align: left;
+        }
+
+        .footer-column {
+        flex: 1 1 200px;
+        margin: 1rem 0;
+        }
+
+        .footer-column h6 {
+        text-transform: uppercase;
+        font-weight: bold;
+        }
+
+        .footer-column hr {
+        width: 60px;
+        height: 2px;
+        background-color: #5e32d5;
+        border: none;
+        margin: 0.5rem 0 1rem;
+        }
+
+        .footer-column p, 
+        .footer-column a {
+        color: white;
+        text-decoration: none;
+        margin-bottom: 0.5rem;
+        display: block;
+        }
+
+        .footer-column a:hover {
+        text-decoration: underline;
+        }
+
+        .footer-bottom {
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 1rem;
+        }
+
+        @media (max-width: 1600px) {
+            .footer-content {
+            max-width: 100%;
+            padding: 2rem 1rem 1rem;
+            }
+            .footer-column {
+            flex: 1 1 300px;
+            }
+        }
+        @media (max-width: 768px) {
+            .footer-top {
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            padding: 20px;
-            border-top: 1px solid var(--card-border-color);
-        }
+            }
 
-        footer .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 10px 0;
-        }
+            .footer-content {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 100%;
+            padding: 2rem 1rem 1rem;
+            }
 
-        footer .social-links a {
-            display: inline-block;
-            width: 32px;
-            height: 32px;
-        }
-
-        footer .social-links img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        footer .social-links img:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 8px var(--card-shadow-color);
-        }
-
-        footer nav {
-            margin: 10px 0;
-        }
-
-        footer nav a {
-            margin: 0 10px;
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        footer nav a:hover {
-            color: #007BFF;
-            text-decoration: underline;
-        }
-
-        footer .last-updated {
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: var(--card-border-color);
+            .footer-column {
+            flex: 1 1 100%;
+            max-width: 100%;
+            }
         }
 
         .chatbot-icon {
@@ -209,17 +246,96 @@
             font-size: 2.5rem;
             text-align: center;
         }
+        
+        /* Sign in and Sign out */
+        #sign_in {
+            text-decoration: none;
+        }
+        /* Base button styles */
+        #sign_in button, #sign_out {
+            display: flex;
+            align-items: center;
+            height: 47px;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 1.1rem;
+            font-weight: 400;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.121);
+            cursor: pointer;
+            outline: none;
+        }
+        #sign_in button{
+            background: #fff;
+            color: #444;
+            border: 1px solid #ddd;
+        }
+        #sign_out{
+            background: #eb1a1a;
+            color: #ffffff;
+            border: 1px solid #ea1111;
+        }
+        #sign_in button:hover{
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: #f1f1f1;
+        }
+        #sign_out:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: #d12a2a;
+            color: #f1f1f1;
+        }
+
+        /* Icon sizing & spacing */
+        #sign_in img, #sign_out img {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+        }
+
         @media (max-width: 600px) {
             .main-heading {
-                margin-top: 40px;
-                font-size: 1.5rem;
+            margin-top: 40px;
+            font-size: 1.5rem;
+            }
+            #desktop-only {
+            display: none;
+            }
+            #sign_in, #sign_out {
+            width: 50px;
+            padding: 0;
+            justify-content: center;
+            }
+            #sign_in img, #sign_out img {
+            margin-right: 0;
             }
         }
         </style>
     </head>
     <body>
+            <!-- GOOGLE auth  -->
+     
+        <div style="position: absolute; top: 20px; right: 90px; z-index: 1100;">
+            {% if user %}
+                <form action="{{ url_for('logout') }}" method="post" style="display:inline;">
+                    <button id="sign_out" type="submit">
+                        <img src="https://img.icons8.com/?size=48&id=85795&format=png" 
+                             alt="Google" style="filter: invert(1);">
+                        <span id="desktop-only">Sign out</span>
+                    </button>
+                </form>
+            {% else %}  
+                <a id="sign_in" href="{{ url_for('login') }}" style="text-decoration: none;">
+                    <button>
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                            alt="Google">
+                        
+                        <span id="desktop-only">Sign in</span>
+                    </button>
+                </a>
+            {% endif %}
+        </div>
+        <!-- sign-in sign out end -->
         <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleButton">🌚</button>
-        <h1 class="main-heading" style="margin-top: 80px; font-size: 2.5rem;">Welcome to Data Bro</h1>
+        <h1 class="main-heading" style="margin-top: 80px; font-size: 2.5rem;">Welcome to DataBRO</h1>
         <p>Explore the topics below:</p>
         <div class="card-container">
         {% for topic in topics %}
@@ -229,24 +345,58 @@
             </a>
         {% endfor %}
         </div>
-    <footer>
-        <p>About Me</p>
-        <div class="social-links">
-            <a href="https://www.linkedin.com/in/nivin-benny" target="_blank">
-                <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn">
-            </a>
-            <a href="https://github.com/your-username" target="_blank">
-                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
-            </a>
-        </div>
-        <p>&copy; 2025 Nivin Benny. All rights reserved.</p>
-        <nav>
-            <a href="/privacy-policy">Privacy Policy</a>
-            <a href="/terms-of-service">Terms of Service</a>
-            <a href="/templates/contact.html">Contact</a>
-        </nav>
-        <p class="last-updated">Last updated: January 2025</p>
-    </footer>
+        <footer>
+            <div class="footer-top">
+              <div><span>Get connected with us on social networks:</span></div>
+              <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-google"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+          
+            <div class="footer-content">
+              <div class="footer-column">
+                <h6>Data BRO</h6>
+                <hr />
+                <p>
+                    This site is created to help Data Science and Machine Learning enthusiasts or aspiring students find a structured path to learn the essential skills needed to succeed in this rapidly growing field.
+                </p>
+              </div>
+              <div class="footer-column">
+                <h6>Products</h6>
+                <hr />
+                <a href="#">MDBootstrap</a>
+                <a href="#">MDWordPress</a>
+                <a href="#">BrandFlow</a>
+                <a href="#">Bootstrap Angular</a>
+              </div>
+              <div class="footer-column">
+                <h6>Useful links</h6>
+                <hr />
+                <a href="#">Your Account</a>
+                <a href="#">Become an Affiliate</a>
+                <a href="#">Shipping Rates</a>
+                <a href="#">Help</a>
+              </div>
+              <div class="footer-column">
+                <h6>Contact</h6>
+                <hr />
+                <p><i class="fas fa-home"></i> New York, NY 10012, US</p>
+                <p><i class="fas fa-envelope"></i> info@example.com</p>
+                <p><i class="fas fa-phone"></i> + 01 234 567 88</p>
+                <p><i class="fas fa-print"></i> + 01 234 567 89</p>
+              </div>
+            </div>
+          
+            <div class="footer-bottom">
+              © 2020 Copyright:
+              <a class="text-white" href="https://mdbootstrap.com/" style="color: white;">MDBootstrap.com</a>
+            </div>
+        </footer>
 
     <!-- Floating Chatbot Icon -->
     <div class="chatbot-icon" id="chatbotIcon" title="Chat with us" aria-label="Chat with us">
