@@ -7,11 +7,16 @@ import jwt
 from datetime import datetime, timedelta, timezone
 import traceback
 from flask_session import Session
+from flask_session import Session
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 # Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
+
+# Apply ProxyFix AFTER app is created
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 # Session configuration (ensure to set secure cookies in production)
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
