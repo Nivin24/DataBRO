@@ -63,7 +63,7 @@ def login():
     session['next_url'] = next_url  # Save for after callback
     #chumma
     redirect_uri = url_for('callback', _external=True)
-    print("Generated Redirect URI:", redirect_uri)  # <-- ADD THIS LINE
+    app.logger.info("Generated Redirect URI: %s", redirect_uri)
     
     google = OAuth2Session(client_id, scope=scope, redirect_uri=redirect_uri)
     authorization_url, state = google.authorization_url(authorization_base_url, access_type='offline', prompt='select_account')
