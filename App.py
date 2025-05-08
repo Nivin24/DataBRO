@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 # Session configuration (ensure to set secure cookies in production)
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-app.config['SESSION_COOKIE_SECURE'] = False # Make this True for Production
+app.config['SESSION_COOKIE_SECURE'] = True # Make this True for Production
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = './flask_session'
 app.config['SESSION_PERMANENT'] = False
