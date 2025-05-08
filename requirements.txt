@@ -1,3 +1,9 @@
-Flask==2.3.2
+Flask
 psycopg2-binary
 gunicorn
+requests
+requests-oauthlib
+python-dotenv
+Flask-SQLAlchemy
+PyJWT
+Flask-Session
