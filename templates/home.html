@@ -28,6 +28,7 @@
             --icon-hover-bg-color: #0056b3;
             --icon-hover-color: #fff;
             --icon-hover-border-color: #004494;
+            --logo-title-color: #14213d;
         }
 
         [data-theme="dark"] {
@@ -46,6 +47,7 @@
             --icon-hover-bg-color: #5f41af;
             --icon-hover-color: #fff;
             --icon-hover-border-color: #3e1f8b;
+            --logo-title-color: #fff;
         }
 
         body {
@@ -336,6 +338,10 @@
                 max-width: 90vw;
             }
         }
+        .databro-title {
+            color: var(--logo-title-color, #14213d);
+            transition: color 0.3s;
+        }
         </style>
     </head>
     <body>
@@ -362,6 +368,12 @@
             {% endif %}
         </div>
         <!-- sign-in sign out end -->
+        <div class="logo" style="position: fixed; top: 20px; left: 20px; z-index: 1200; display: flex; align-items: center;">
+            <a href="{{ url_for('home') }}" style="text-decoration: none; display: flex; align-items: center;">
+                <img src="{{ url_for('static', filename='databro.png') }}" alt="DataBRO Logo" style="height:40px; border-radius: 30%; vertical-align:middle; margin-right:10px;">
+                <h2 class="databro-title" style="display:inline; vertical-align:middle; margin: 0;">DataBRO</h2>
+            </a>
+        </div>
         <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleButton">🌚</button>
         <h1 class="main-heading" style="margin-top: 80px; font-size: 2.5rem;">
             Welcome{{ " " + user.name.split(' ')[0] + "!" if user else " Bro!" }}
