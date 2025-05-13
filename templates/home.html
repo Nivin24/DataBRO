@@ -308,6 +308,34 @@
             margin-right: 0;
             }
         }
+        .intro-text {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 1.5em;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 90vw;
+            width: 700px;
+            padding: 0 1rem;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+        @media (max-width: 900px) {
+            .intro-text {
+                width: 90%;
+                font-size: 1.05rem;
+                max-width: 90vw;
+            }
+        }
+        @media (max-width: 600px) {
+            .intro-text {
+                font-size: 0.98rem;
+                margin-bottom: 1em;
+                padding: 0 0.5rem;
+                width: 90%;
+                max-width: 90vw;
+            }
+        }
         </style>
     </head>
     <body>
@@ -335,7 +363,12 @@
         </div>
         <!-- sign-in sign out end -->
         <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleButton">🌚</button>
-        <h1 class="main-heading" style="margin-top: 80px; font-size: 2.5rem;">Welcome to DataBRO</h1>
+        <h1 class="main-heading" style="margin-top: 80px; font-size: 2.5rem;">
+            Welcome{{ " " + user.name.split(' ')[0] + "!" if user else " Bro!" }}
+        </h1>
+        <p class="intro-text">
+            Your journey into Data Science and Machine Learning starts here. Explore curated topics and resources to boost your skills!
+        </p>
         <p>Explore the topics below:</p>
         <div class="card-container">
         {% for topic in topics %}
@@ -410,7 +443,7 @@
             <span style="cursor:pointer; font-size:1.5rem; margin-left:1rem;" id="closeChatbot" title="Close">&times;</span>
         </div>
         <div style="padding:1.2rem 1.2rem 0.5rem;">
-            <p style="margin-bottom:1em;">👋 Hi! How can we help you?</p>
+            <p style="margin-bottom:1em;">👋 Hi{{ " " + user.name.split(' ')[0] + "!" if user else " Bro!" }} How can we help you?</p>
             <ul id="faq-list" style="padding-left:1.2em; margin-bottom:1.5em;">
                 <li style="margin-bottom:0.7em; cursor:pointer;">
                     <strong class="faq-question">What is DataBRO?</strong>
