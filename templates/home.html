@@ -343,30 +343,84 @@
             color: var(--logo-title-color, #14213d);
             transition: color 0.3s;
         }
+        
         </style>
     </head>
     <body>
             <!-- GOOGLE auth  -->
      
-        <div style="position: absolute; top: 20px; right: 90px; z-index: 1100;">
-            {% if user %}
-                <form action="{{ url_for('logout') }}" method="post" style="display:inline;">
-                    <button id="sign_out" type="submit">
-                        <img src="https://img.icons8.com/?size=48&id=85795&format=png" 
-                             alt="Google" style="filter: invert(1);">
-                        <span id="desktop-only">Sign out</span>
-                    </button>
-                </form>
-            {% else %}  
-                <a id="sign_in" href="{{ url_for('login') }}" style="text-decoration: none;">
-                    <button>
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-                            alt="Google">
-                        
-                        <span id="desktop-only">Sign in</span>
-                    </button>
-                </a>
-            {% endif %}
+        <div class="user-controls">
+        {% if user %}
+            <div class="profile-menu-container" style="position: fixed; top: 20px; right: 80px;">
+                <img src="{{ user.picture }}" alt="User Picture" class="profile-picture">
+                <div id="profileDropdown" class="profile-dropdown" style="background-color: var(--card-bg-color); color: var(--text-color); border-color: var(--card-border-color); display: none;">
+                    <a href="{{ url_for('profile') }}" style="color: var(--text-color); transition: transform 0.3s ease;">
+                        Profile
+                    </a>
+                    <a href="{{ url_for('settings') }}" style="color: var(--text-color); transition: transform 0.3s ease;">
+                        Settings
+                    </a>
+                    <form action="{{ url_for('logout') }}" method="post" style="margin: 0;">
+                        <button type="submit" class="logout-button" style="color: var(--text-color); border: none; transition: transform 0.3s ease;">
+                            Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <script>
+                const profileMenuContainer = document.querySelector('.profile-menu-container');
+                const profileDropdown = document.getElementById('profileDropdown');
+                let hideTimeout;
+
+                // Show dropdown on mouseenter
+                profileMenuContainer.addEventListener('mouseenter', () => {
+                    clearTimeout(hideTimeout);
+                    profileDropdown.style.display = 'block';
+                });
+
+                // Hide dropdown on mouseleave (with delay)
+                profileMenuContainer.addEventListener('mouseleave', () => {
+                    hideTimeout = setTimeout(() => {
+                        profileDropdown.style.display = 'none';
+                    }, 300);
+                });
+
+                profileDropdown.addEventListener('mouseenter', () => {
+                    clearTimeout(hideTimeout);
+                });
+
+                profileDropdown.addEventListener('mouseleave', () => {
+                    hideTimeout = setTimeout(() => {
+                        profileDropdown.style.display = 'none';
+                    }, 300);
+                });
+
+                // Toggle dropdown on click
+                profileMenuContainer.addEventListener('click', (e) => {
+                    // Prevent click from propagating to window (which may close the menu)
+                    e.stopPropagation();
+                    if (profileDropdown.style.display === 'block') {
+                        profileDropdown.style.display = 'none';
+                    } else {
+                        profileDropdown.style.display = 'block';
+                    }
+                });
+
+                // Optional: Hide dropdown when clicking outside
+                window.addEventListener('click', function (e) {
+                    if (!profileMenuContainer.contains(e.target)) {
+                        profileDropdown.style.display = 'none';
+                    }
+                });
+            </script>
+        {% else %}
+            <a id="sign_in" href="{{ url_for('login') }}">
+                <button>
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                    <span id="desktop-only">Sign in</span>
+                </button>
+            </a>
+        {% endif %}
         </div>
         <!-- sign-in sign out end -->
         <div class="logo" style="position: fixed; top: 20px; left: 20px; z-index: 1200; display: flex; align-items: center;">
