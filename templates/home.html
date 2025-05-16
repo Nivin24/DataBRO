@@ -343,7 +343,97 @@
             color: var(--logo-title-color, #14213d);
             transition: color 0.3s;
         }
-        
+        /* New Style for Profile icon */
+        .profile-menu-container {
+            position: absolute;
+            top: 20px;
+            right: 90px;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .profile-picture {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--card-border-color);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            margin-top: 10px;
+            background-color: var(--background-color, #fff);
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+            width: 150px;
+            z-index: 1200;
+        }
+
+        .profile-dropdown a,
+        .profile-dropdown .logout-button {
+            display: block;
+            padding: 10px 20px;
+            color: var(--text-color, #333);
+            text-decoration: none;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .profile-dropdown a:hover,
+        .profile-dropdown .logout-button:hover {
+            background-color: transparent;
+            transform: scale(1.05);
+            cursor: pointer;
+
+        }
+
+        .auth-buttons {
+            position: absolute;
+            top: 20px;
+            right: 90px;
+            z-index: 1100;
+        }
+
+        .user-controls {
+            position: absolute;
+            top: 20px;
+            right: 90px;
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--card-border-color);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .logout-form {
+            display: inline;
+        }
+
+        .invert-icon {
+            filter: invert(1);
+        }
+
+        .logo h2 {
+            margin: 0;
+        }
         </style>
     </head>
     <body>
