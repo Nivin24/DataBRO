@@ -444,12 +444,12 @@
             <div class="profile-menu-container" style="position: fixed; top: 20px; right: 80px;">
                 <img src="{{ user.picture }}" alt="User Picture" class="profile-picture">
                 <div id="profileDropdown" class="profile-dropdown" style="background-color: var(--card-bg-color); color: var(--text-color); border-color: var(--card-border-color); display: none;">
-                    <a href="{{ url_for('profile') }}" style="color: var(--text-color); transition: transform 0.3s ease;">
+<!--                     <a href="{{ url_for('profile') }}" style="color: var(--text-color); transition: transform 0.3s ease;">
                         Profile
                     </a>
                     <a href="{{ url_for('settings') }}" style="color: var(--text-color); transition: transform 0.3s ease;">
                         Settings
-                    </a>
+                    </a> -->
                     <form action="{{ url_for('logout') }}" method="post" style="margin: 0;">
                         <button type="submit" class="logout-button" style="color: var(--text-color); border: none; transition: transform 0.3s ease;">
                             Logout
