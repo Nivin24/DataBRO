@@ -16,6 +16,7 @@
             --card-shadow-color: rgba(0, 0, 0, 0.08);
             --accent-color: #007bff;
             --gradient-hover: linear-gradient(145deg, #d6eaff, #ffffff);
+            --logo-title-color: #14213d;
         }
 
         [data-theme="dark"] {
@@ -25,6 +26,7 @@
             --card-border-color: #2d2d2d;
             --card-shadow-color: rgba(0, 0, 0, 0.6);
             --gradient-hover: linear-gradient(145deg, #1c1c1c, #2a2a2a);
+            --logo-title-color: #fff;
         }
 
         body {
@@ -351,13 +353,14 @@
     </style>
 </head>
 <body>
-    
+    <div class="logo" style="position: fixed; top: 20px; left: 20px; z-index: 1200; display: flex; align-items: center;">
+        <a href="{{ url_for('home') }}" style="text-decoration: none; display: flex; align-items: center;">
+            <img src="{{ url_for('static', filename='databro.png') }}" alt="DataBRO Logo" style="height:40px; border-radius: 30%; vertical-align:middle; margin-right:10px;">
+            <h2 class="databro-title" style="display:inline; vertical-align:middle; margin: 0;">DataBRO</h2>
+        </a>
+    </div>
     <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleButton">🌚</button>
-    <a href="{{ url_for('home') }}">
-        <button class="home-button">
-            <img id="homeIcon" src="https://img.icons8.com/ios-filled/50/home-page.png" alt="Home" style="width: 20px; vertical-align: middle; filter: invert(50%);">
-        </button>
-    </a>
+    
     <h1 id="welcomeTitle" style="margin-top: 60px;">Welcome to the Python Learning Hub</h1>
     <div class="card-container">
         <div class="card" onclick="navigateToSection('theory')">
