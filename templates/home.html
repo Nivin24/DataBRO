@@ -108,7 +108,7 @@
             width: 48px;
             height: 47px;
             top: 20px;
-            right: 20px;
+            right: 80px;
 /*             padding: 12px 15px; */
             font-size: 1.2rem;
             background-color: var(--card-bg-color);
@@ -347,7 +347,7 @@
         .profile-menu-container {
             position: absolute;
             top: 20px;
-            right: 90px;
+            right: 30px;
             cursor: pointer;
             z-index: 1100;
         }
@@ -441,7 +441,7 @@
      
         <div class="user-controls">
         {% if user %}
-            <div class="profile-menu-container" style="position: fixed; top: 20px; right: 80px;">
+            <div class="profile-menu-container" style="position: fixed; top: 20px; right: 20px;">
                 <img src="{{ user.picture }}" alt="User Picture" class="profile-picture">
                 <div id="profileDropdown" class="profile-dropdown" style="background-color: var(--card-bg-color); color: var(--text-color); border-color: var(--card-border-color); display: none;">
                     <a href="{{ url_for('home') }}" style="color: var(--text-color); transition: transform 0.3s ease;">
