@@ -258,6 +258,7 @@
         #sign_in button, #sign_out {
             display: flex;
             align-items: center;
+            justify-content: center;
             height: 47px;
             width: 47px;
             border-radius: 50%;
@@ -518,7 +519,7 @@
                 <h2 class="databro-title" style="display:inline; vertical-align:middle; margin: 0;">DataBRO</h2>
             </a>
         </div>
-        <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleButton">🌚</button>
+        <button aria-label="Toggle theme" class="theme-toggle" onclick="toggleTheme()" id="themeToggleButton">☾</button>
         <h1 class="main-heading" style="margin-top: 80px; font-size: 2.5rem;">
             Welcome{{ " " + user.name.split(' ')[0] + "!" if user else " Bro!" }}
         </h1>
@@ -716,7 +717,7 @@
 
             // Update the button icon
             const themeToggleButton = document.getElementById('themeToggleButton');
-            themeToggleButton.textContent = newTheme === 'dark' ? '🌝' : '🌚';
+            themeToggleButton.textContent = newTheme === 'dark' ? '☾' : '☼';
         }
 
         // Load the saved theme from localStorage
@@ -725,7 +726,7 @@
 
         // Set the initial button icon
         const themeToggleButton = document.getElementById('themeToggleButton');
-        themeToggleButton.textContent = savedTheme === 'dark' ? '🌝' : '🌚';
+        themeToggleButton.textContent = savedTheme === 'dark' ? '☾' : '☼';
     </script>
 </body>
 </html>
