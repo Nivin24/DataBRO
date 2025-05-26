@@ -106,14 +106,13 @@
         .theme-toggle {
             position: fixed;
             width: 48px;
-            height: 47px;
+            height: 48px;
             top: 20px;
             right: 80px;
-/*             padding: 12px 15px; */
             font-size: 1.2rem;
             background-color: var(--card-bg-color);
             border: 1px solid var(--card-border-color);
-            border-radius: 12px;
+            border-radius: 50%;
             cursor: pointer;
             color: var(--text-color);
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
@@ -260,7 +259,7 @@
             align-items: center;
             height: 47px;
             width: 47px;
-            border-radius: 10px;
+            border-radius: 50%;
             font-size: 1.1rem;
             font-weight: 400;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.121);
@@ -407,7 +406,7 @@
         .user-controls {
             position: absolute;
             top: 20px;
-            right: 30px;
+            right: 20px;
             z-index: 1100;
             display: flex;
             align-items: center;
@@ -506,7 +505,7 @@
             <a id="sign_in" href="{{ url_for('login') }}">
                 <button>
                     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-                    <span id="desktop-only">Sign in</span>
+                    <!-- <span id="desktop-only">Sign in</span> -->
                 </button>
             </a>
         {% endif %}
